@@ -1514,14 +1514,14 @@
         "id": "75aa04f7b0569c59",
         "type": "inject",
         "z": "f01882c08732b397",
-        "name": "",
+        "name": "未処理topicの配信",
         "props": [],
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 110,
+        "x": 150,
         "y": 680,
         "wires": [
             [
@@ -1739,30 +1739,12 @@
         "y": 800,
         "wires": [
             [
-                "79e4f9b83a026d95",
                 "fa378d358dbc8c4f"
             ],
             [
                 "b3b1347496e2aea7"
             ]
         ]
-    },
-    {
-        "id": "79e4f9b83a026d95",
-        "type": "debug",
-        "z": "f01882c08732b397",
-        "name": "debug 8",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 840,
-        "y": 840,
-        "wires": []
     },
     {
         "id": "5f8645481b17a6ba",
@@ -1772,7 +1754,7 @@
         "statusCode": "400",
         "headers": {},
         "x": 1060,
-        "y": 880,
+        "y": 840,
         "wires": []
     },
     {
@@ -1882,7 +1864,7 @@
         "finalize": "",
         "libs": [],
         "x": 850,
-        "y": 880,
+        "y": 840,
         "wires": [
             [
                 "5f8645481b17a6ba"
@@ -1989,5 +1971,87 @@
                 "f0ac4de4ad9cb846"
             ]
         ]
+    },
+    {
+        "id": "78cfe90baee1916e",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "loop logic",
+        "func": "//ループ情報を取得\nconst status = global.loop_status[msg.hash] || {count: -1, target: null}\n\nstatus.count++\n\n//次の要素を取得、存在しない場合はnull返却\nstatus.target = (status.count < global.TARGETS.length) ? global.TARGETS[status.count] : null\n\n//結果を保存\nglobal.loop_status[msg.hash] = status\n\n//戻り値を作成\nmsg.target = status.target\nmsg.length = global.TARGETS.length\nmsg.count = status.count\n\n//次の要素がある場合は出力１，無い場合は出力２\nconst messages = new Array(node.outputCount)\nif (status.target){\n    node.status({ fill: \"green\", shape: \"dot\", text: `${msg.count} / ${msg.length}`})\n    messages[0] = msg\n} else {\n    messages[1] = msg\n    node.status({})\n}\nreturn msg;",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "// ここに記述したコードは、ノードをデプロイした時に\n// 一度だけ実行されます。\nglobal.TARGETS = [\"test1\",\"test2\"]\nglobal.loop_status = {}\n",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 1100,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "c2317a45bbaef187",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "uuid",
+        "func": "if(!msg.hash){\n    const date = new Date()\n    msg.hash = date.getFullYear() + (\"0\" + (date.getMonth() + 1)).slice(-2) + (\"0\" + (date.getDate() + 1)).slice(-2)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 1060,
+        "wires": [
+            [
+                "8133956767d7a9d7"
+            ]
+        ]
+    },
+    {
+        "id": "56db8776a8f93f5b",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 1060,
+        "wires": [
+            [
+                "c2317a45bbaef187"
+            ]
+        ]
+    },
+    {
+        "id": "8133956767d7a9d7",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 1060,
+        "wires": []
     }
 ]

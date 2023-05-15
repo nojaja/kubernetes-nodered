@@ -31,7 +31,7 @@ spec:
         env:
           - name: TZ
             value: "Asia/Tokyo"
-          - name: NODE_RED_ENEABLE_PROJECTS
+          - name: NODE_RED_ENABLE_PROJECTS
             value: "true"
           - name: SERVICENAME
             value: "nodered-service"
