@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodered-service
+spec:
+  selector:
+    app: nodered
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 1880
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodered-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodered
+  template:
+    metadata:
+      labels:
+        app: nodered
+    spec:
+      containers:
+      - name: nodered-server
+        image: nodered/node-red:latest
+        env:
+          - name: TZ
+            value: "Asia/Tokyo"
+          - name: NODE_RED_ENEABLE_PROJECTS
+            value: "true"
+          - name: SERVICENAME
+            value: "nodered-service"
+          - name: CLUSTER_GROUP
+            value: "test"
+          - name: CLUSTER_ROLE
+            value: "processor"
+        volumeMounts:
+          - name: nodered-data-store-volume
+            mountPath: /data
+          - name: nodered-workspace-volume
+            mountPath: /workspace
+          - name: nodered-output-volume
+            mountPath: /output
+        ports:
+        - containerPort: 1880
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 250m
+          limits:
+            memory: 8Gi
+            cpu: 500m
+      volumes:
+        - name: nodered-tmp-cache-volume
+          emptyDir: {}
+        - name: nodered-data-store-volume
+          persistentVolumeClaim:
+            claimName: nodered-data-pvc
+        - name: nodered-workspace-volume
+          persistentVolumeClaim:
+            claimName: nodered-workspace-pvc
+        - name: nodered-output-volume
+          persistentVolumeClaim:
+            claimName: nodered-output-pvc
+
+

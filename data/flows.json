@@ -1,0 +1,1993 @@
+[
+    {
+        "id": "f01882c08732b397",
+        "type": "tab",
+        "label": "フロー 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "cd185f8f533e0f2d",
+        "type": "subflow",
+        "name": "logger",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "8b05743651ac39ce"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [
+            {
+                "name": "logLevel",
+                "type": "str",
+                "value": "info"
+            },
+            {
+                "name": "logName",
+                "type": "str",
+                "value": "system"
+            },
+            {
+                "name": "logUID_Key",
+                "type": "str",
+                "value": "_msgid"
+            },
+            {
+                "name": "logPath",
+                "type": "str",
+                "value": "/workspace/logs/"
+            }
+        ],
+        "meta": {
+            "module": "logger",
+            "type": "logger",
+            "version": "0.0.1",
+            "license": "MIT"
+        },
+        "color": "#87A980",
+        "icon": "node-red/file-out.svg"
+    },
+    {
+        "id": "27227cef106a74f0",
+        "type": "subflow",
+        "name": "endpoint",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 520,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "87bd2ef55c481975",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "actionType",
+                "type": "str",
+                "value": "exec"
+            },
+            {
+                "name": "endpoint",
+                "type": "env",
+                "value": "/${actionType}/:jobsession/:target"
+            }
+        ],
+        "meta": {},
+        "color": "#A6BBCF",
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "45018afdb676ae24",
+        "type": "subflow",
+        "name": "rpc_async",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "a9fa9c32d27f7f10"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 660,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "194d7930b95721c2",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "actionType",
+                "type": "str",
+                "value": "exec"
+            },
+            {
+                "name": "endpoint",
+                "type": "env",
+                "value": "/callback/${jobgroup}/jobsession/"
+            },
+            {
+                "name": "jobsession_key",
+                "type": "str",
+                "value": "jobsession"
+            },
+            {
+                "name": "endpointport",
+                "type": "str",
+                "value": "2880"
+            },
+            {
+                "name": "jobgroup",
+                "type": "str",
+                "value": "test"
+            }
+        ],
+        "meta": {},
+        "color": "#A6BBCF",
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "0cd70b49340abfe2",
+        "type": "subflow",
+        "name": "cluster_endpoint",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 540,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "20dcaeb9b3ab0ad1",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "endpoint_port",
+                "type": "str",
+                "value": "2880"
+            }
+        ],
+        "meta": {},
+        "color": "#A6BBCF",
+        "icon": "node-red/bridge.svg"
+    },
+    {
+        "id": "610d7761aec803a7",
+        "type": "subflow",
+        "name": "cluster_ctl",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "055a6b1f611eebc9"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [
+            {
+                "name": "COMMAND",
+                "type": "str",
+                "value": ""
+            },
+            {
+                "name": "BROADCAST",
+                "type": "bool",
+                "value": "true"
+            }
+        ],
+        "meta": {},
+        "color": "#A6BBCF",
+        "icon": "node-red/bridge-dash.svg"
+    },
+    {
+        "id": "b3da594ab22fa515",
+        "type": "subflow",
+        "name": "switch role",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "2ca89985ea3eb86d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 370,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "2ca89985ea3eb86d",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 380,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "2ca89985ea3eb86d",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#E2D96E",
+        "outputLabels": [
+            "jobctl",
+            "processor"
+        ],
+        "icon": "node-red/switch.svg"
+    },
+    {
+        "id": "375ee1d6cf6e3891",
+        "type": "subflow",
+        "name": "rpc_sync",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "a72d2803344a446d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 820,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "ab5c9b3893934684",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 820,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "ab5c9b3893934684",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "actionType",
+                "type": "str",
+                "value": "exec"
+            },
+            {
+                "name": "jobsession_key",
+                "type": "str",
+                "value": "jobsession"
+            },
+            {
+                "name": "topic_key",
+                "type": "str",
+                "value": "test"
+            }
+        ],
+        "meta": {},
+        "color": "#A6BBCF",
+        "icon": "node-red/arrow-in.svg"
+    },
+    {
+        "id": "c826488602403262",
+        "type": "subflow",
+        "name": "topics_assign",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "18819cbac00ebaf8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 380,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "18819cbac00ebaf8",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 380,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "18819cbac00ebaf8",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "topic_key",
+                "type": "str",
+                "value": "topic"
+            },
+            {
+                "name": "status_key",
+                "type": "str",
+                "value": "status"
+            }
+        ],
+        "meta": {},
+        "color": "#DEB887",
+        "icon": "node-red/db.svg"
+    },
+    {
+        "id": "b8cfb4b94405d94d",
+        "type": "subflow",
+        "name": "fillter topic",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "9824a4787a5aa8d6"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 340,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "9824a4787a5aa8d6",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 340,
+                "y": 120,
+                "wires": [
+                    {
+                        "id": "9824a4787a5aa8d6",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#E2D96E",
+        "icon": "node-red/rbe.png"
+    },
+    {
+        "id": "d6f01b04a12d7282",
+        "type": "subflow",
+        "name": "topic_add",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "a27285317db43ec7"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 340,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "a27285317db43ec7",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DEB887",
+        "icon": "node-red/db.svg"
+    },
+    {
+        "id": "0eb6c089a1f171e9",
+        "type": "subflow",
+        "name": "topics_list",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "126cbf276ed23332"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 340,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "126cbf276ed23332",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DEB887",
+        "icon": "node-red/db.svg"
+    },
+    {
+        "id": "8b05743651ac39ce",
+        "type": "function",
+        "z": "cd185f8f533e0f2d",
+        "name": "logger_proc",
+        "func": "const logLevel = env.get(\"logLevel\")\nconst logName = env.get(\"logName\")\nconst uid_key = env.get(\"logUID_Key\")\nconst logPath = env.get(\"logPath\")\nconst uid = msg[uid_key] || msg._msgid\nconst filename = `${logName}${logLevel}.log`\nmsg.logFilePath = path.join(logPath, uid, filename)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "path",
+                "module": "path"
+            }
+        ],
+        "x": 230,
+        "y": 40,
+        "wires": [
+            [
+                "5dfac259ecc0927f",
+                "7e0a41b86051ec87"
+            ]
+        ]
+    },
+    {
+        "id": "5dfac259ecc0927f",
+        "type": "file",
+        "z": "cd185f8f533e0f2d",
+        "name": "logout",
+        "filename": "logFilePath",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 410,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7e0a41b86051ec87",
+        "type": "debug",
+        "z": "cd185f8f533e0f2d",
+        "name": "${logName}",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "ab279f5f2fd77d53",
+        "type": "http in",
+        "z": "27227cef106a74f0",
+        "name": "endpoint",
+        "url": "${endpoint}",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 60,
+        "wires": [
+            [
+                "87bd2ef55c481975"
+            ]
+        ]
+    },
+    {
+        "id": "87bd2ef55c481975",
+        "type": "change",
+        "z": "27227cef106a74f0",
+        "name": "set parameter",
+        "rules": [
+            {
+                "t": "set",
+                "p": "jobsession",
+                "pt": "msg",
+                "to": "req.params.jobsession",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "target",
+                "pt": "msg",
+                "to": "req.params.target",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "callbackhost",
+                "pt": "msg",
+                "to": "req.params.x-callback",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 60,
+        "wires": [
+            [
+                "d4ed8772713b75e0"
+            ]
+        ]
+    },
+    {
+        "id": "d4ed8772713b75e0",
+        "type": "template",
+        "z": "27227cef106a74f0",
+        "name": "Response-Page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "HOSTNAME: {{env.HOSTNAME}}\nNODE_RED_VERSION:{{env.NODE_RED_VERSION}}\njob-session: {{sobsession}}\ntarget: {{target}}\nCALLBACK HOST: {{callbackhost}}",
+        "output": "str",
+        "x": 580,
+        "y": 60,
+        "wires": [
+            [
+                "b2cb43138961ea29"
+            ]
+        ]
+    },
+    {
+        "id": "b2cb43138961ea29",
+        "type": "http response",
+        "z": "27227cef106a74f0",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 780,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "fe5cdfa3977befd1",
+        "type": "http in",
+        "z": "45018afdb676ae24",
+        "name": "endpoint",
+        "url": "${endpoint}",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "194d7930b95721c2"
+            ]
+        ]
+    },
+    {
+        "id": "194d7930b95721c2",
+        "type": "change",
+        "z": "45018afdb676ae24",
+        "name": "set parameter",
+        "rules": [
+            {
+                "t": "set",
+                "p": "jobsession",
+                "pt": "msg",
+                "to": "req.params.jobsession",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "target",
+                "pt": "msg",
+                "to": "req.params.target",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "callbackhost",
+                "pt": "msg",
+                "to": "req.params.x-callback",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 220,
+        "wires": [
+            [
+                "28a1734171d6b9cb"
+            ]
+        ]
+    },
+    {
+        "id": "28a1734171d6b9cb",
+        "type": "template",
+        "z": "45018afdb676ae24",
+        "name": "Response-Page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "HOSTNAME: {{env.HOSTNAME}}\nNODE_RED_VERSION:{{env.NODE_RED_VERSION}}\njob-session: {{sobsession}}\ntarget: {{target}}\nCALLBACK HOST: {{callbackhost}}",
+        "output": "str",
+        "x": 620,
+        "y": 220,
+        "wires": [
+            [
+                "410889c1e32a785c"
+            ]
+        ]
+    },
+    {
+        "id": "410889c1e32a785c",
+        "type": "http response",
+        "z": "45018afdb676ae24",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 820,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "a9fa9c32d27f7f10",
+        "type": "function",
+        "z": "45018afdb676ae24",
+        "name": "generate_url",
+        "func": "\nconst port = env.get(\"PORT\")\nconst endpointport = env.get(\"endpointport\")\n\nconst service = env.get(\"service_name\")\nconst action = env.get(\"action_type\")\n\nconst jobsession_key = env.get(\"jobsession_key\")\nconst jobsession = msg[jobsession_key]\n\nconst target_key = env.get(\"target_key\")\nconst target = msg[target_key]\n\nmsg.host = env.get(\"SERVICENAME\")\nmsg.service = service\nmsg.joburl = `http://${service}/${action}/${jobsession}/${target}`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 100,
+        "wires": [
+            [
+                "7479f711071af9bc"
+            ]
+        ]
+    },
+    {
+        "id": "7479f711071af9bc",
+        "type": "http request",
+        "z": "45018afdb676ae24",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "{{{joburl}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "x-callback",
+                "valueType": "msg",
+                "valueValue": "host"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "x-jobgroup",
+                "valueType": "msg",
+                "valueValue": "service"
+            }
+        ],
+        "x": 430,
+        "y": 100,
+        "wires": [
+            [
+                "457bf364e0336269"
+            ]
+        ]
+    },
+    {
+        "id": "457bf364e0336269",
+        "type": "subflow:cd185f8f533e0f2d",
+        "z": "45018afdb676ae24",
+        "name": "",
+        "x": 650,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "870573ecbe68ee62",
+        "type": "udp in",
+        "z": "0cd70b49340abfe2",
+        "name": "",
+        "iface": "",
+        "port": "${endpoint_port}",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "20dcaeb9b3ab0ad1"
+            ]
+        ]
+    },
+    {
+        "id": "20dcaeb9b3ab0ad1",
+        "type": "function",
+        "z": "0cd70b49340abfe2",
+        "name": "payload decode",
+        "func": "msg.payload = JSON.parse(msg.payload)\nif (!msg.payload.CLUSTER_SERVICE_IP) msg.payload.CLUSTER_SERVICE_IP = msg.ip\n\nconst CLUSTER_GROUP = env.get(\"CLUSTER_GROUP\")\n\n//同じグループじゃない場合は処理しない\nif (msg.payload.CLUSTER_GROUP != CLUSTER_GROUP) return null\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7d45f678d4340e2f",
+        "type": "udp out",
+        "z": "610d7761aec803a7",
+        "name": "send",
+        "addr": "",
+        "iface": "",
+        "port": "2880",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "broad",
+        "x": 970,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "22cfd8a746e0d355",
+        "type": "function",
+        "z": "610d7761aec803a7",
+        "name": "set broadcastAddress",
+        "func": "msg.ip = msg.LocalAddress.broadcastAddress\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 80,
+        "wires": [
+            [
+                "7d45f678d4340e2f"
+            ]
+        ]
+    },
+    {
+        "id": "ce61c2fe2072c316",
+        "type": "function",
+        "z": "610d7761aec803a7",
+        "name": "set ip",
+        "func": "//console.log(msg)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "os",
+                "module": "os"
+            },
+            {
+                "var": "ip",
+                "module": "ip"
+            }
+        ],
+        "x": 690,
+        "y": 120,
+        "wires": [
+            [
+                "7d45f678d4340e2f"
+            ]
+        ]
+    },
+    {
+        "id": "1c270b85f20694db",
+        "type": "function",
+        "z": "610d7761aec803a7",
+        "name": "SEND COMMAND",
+        "func": "const CLUSTER_SERVICE_HTTP_PORT = env.get(\"PORT\") || \"1880\"\nconst CLUSTER_SERVICE_UDP_PORT = env.get(\"UDPPORT\") || \"2880\"\n\nconst CLUSTER_GROUP = env.get(\"CLUSTER_GROUP\")\nconst CLUSTER_ROLE = env.get(\"CLUSTER_ROLE\")\n//const CLUSTER_SERVICE_HOST = env.get(\"KUBERNETES_SERVICE_HOST\")\nconst CLUSTER_SERVICE_IP = msg.LocalAddress.address\nconst CLUSTER_SERVICE_HOST = env.get(\"HOSTNAME\") || CLUSTER_SERVICE_IP\nconst NODE_RED_VERSION = env.get(\"NODE_RED_VERSION\")\nconst COMMAND = env.get(\"COMMAND\")\n\nmsg.payload = JSON.stringify({\n    \"COMMAND\": COMMAND,\n    \"CLUSTER_GROUP\": CLUSTER_GROUP,\n    \"CLUSTER_ROLE\": CLUSTER_ROLE,\n    \"CLUSTER_SERVICE_HOST\": CLUSTER_SERVICE_HOST,\n    \"CLUSTER_SERVICE_IP\": CLUSTER_SERVICE_IP,\n    \"CLUSTER_SERVICE_HTTP_PORT\": CLUSTER_SERVICE_HTTP_PORT,\n    \"CLUSTER_SERVICE_UDP_PORT\": CLUSTER_SERVICE_UDP_PORT,\n    \"NODE_RED_VERSION\": NODE_RED_VERSION,\n    \"PAYLOAD\": msg.payload\n})\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "os",
+                "module": "os"
+            }
+        ],
+        "x": 310,
+        "y": 80,
+        "wires": [
+            [
+                "e304dc51216491e8"
+            ]
+        ]
+    },
+    {
+        "id": "e304dc51216491e8",
+        "type": "switch",
+        "z": "610d7761aec803a7",
+        "name": "isBROADCAST",
+        "property": "BROADCAST",
+        "propertyType": "env",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 520,
+        "y": 80,
+        "wires": [
+            [
+                "22cfd8a746e0d355"
+            ],
+            [
+                "ce61c2fe2072c316"
+            ]
+        ]
+    },
+    {
+        "id": "055a6b1f611eebc9",
+        "type": "function",
+        "z": "610d7761aec803a7",
+        "name": "getLocalAddress",
+        "func": "\nfunction getLocalAddress() {\n    const ifacesObj = {}\n    ifacesObj.ipv4 = []\n    ifacesObj.ipv6 = []\n    const interfaces = os.networkInterfaces()\n    for (let ifname in interfaces) {\n        interfaces[ifname].forEach(function (iface) {\n            if (!iface.internal) {\n                const broadcastAddress = ip.or(iface.address, ip.not(iface.netmask))\n                switch (iface.family) {\n                    case \"IPv4\":\n                        ifacesObj.ipv4.push({ name: ifname, address: iface.address, broadcastAddress: broadcastAddress })\n                        break\n                    case \"IPv6\":\n                        ifacesObj.ipv6.push({ name: ifname, address: iface.address, broadcastAddress: broadcastAddress })\n                        break\n                }\n            }\n        });\n    }\n    return ifacesObj;\n};\n//ipv4: [ { name: 'eth0', address:\nmsg.LocalAddress = getLocalAddress().ipv4[0]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "os",
+                "module": "os"
+            },
+            {
+                "var": "ip",
+                "module": "ip"
+            }
+        ],
+        "x": 190,
+        "y": 40,
+        "wires": [
+            [
+                "1c270b85f20694db"
+            ]
+        ]
+    },
+    {
+        "id": "2ca89985ea3eb86d",
+        "type": "function",
+        "z": "b3da594ab22fa515",
+        "name": "switch role",
+        "func": "const CLUSTER_ROLE = env.get(\"CLUSTER_ROLE\")\n//jobctl\nif (CLUSTER_ROLE === \"jobctl\") {\n    return [msg, null]\n} else {\n//processor\n    return [null, msg]\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "os",
+                "module": "os"
+            }
+        ],
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a72d2803344a446d",
+        "type": "function",
+        "z": "375ee1d6cf6e3891",
+        "name": "generate_url",
+        "func": "\nconst JOBCTL_HOST = global.get(\"JOBCTL_HOST\")\nconst JOBCTL_SERVICE_IP = JOBCTL_HOST.IP\nconst JOBCTL_SERVICE_HOST_HTTP_PORT = JOBCTL_HOST.HTTP_PORT\nconst action = env.get(\"actionType\")\nconst jobsession_key = env.get(\"jobsession_key\")\nconst jobsession = msg[jobsession_key]\n\nconst topic_key = env.get(\"topic_key\")\nconst topic = msg[topic_key]\n\nmsg.joburl = `http://${JOBCTL_SERVICE_IP}:${JOBCTL_SERVICE_HOST_HTTP_PORT}/${action}/${jobsession}/${topic}`\nmsg.topic = topic\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 80,
+        "wires": [
+            [
+                "fc01a190e21bcf85"
+            ]
+        ]
+    },
+    {
+        "id": "fc01a190e21bcf85",
+        "type": "http request",
+        "z": "375ee1d6cf6e3891",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "{{{joburl}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "x-topic",
+                "valueType": "msg",
+                "valueValue": "topic"
+            }
+        ],
+        "x": 370,
+        "y": 80,
+        "wires": [
+            [
+                "af7322c1360c3b53",
+                "ab5c9b3893934684"
+            ]
+        ]
+    },
+    {
+        "id": "af7322c1360c3b53",
+        "type": "subflow:cd185f8f533e0f2d",
+        "z": "375ee1d6cf6e3891",
+        "name": "",
+        "x": 630,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ab5c9b3893934684",
+        "type": "function",
+        "z": "375ee1d6cf6e3891",
+        "name": "function 2",
+        "func": "if (msg.statusCode == \"200\") {\n    if (msg.payload) msg.payload = JSON.parse(msg.payload)\n    return [msg, null]\n}else{\n\n}\n\nreturn [null, msg];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 80,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "18819cbac00ebaf8",
+        "type": "function",
+        "z": "c826488602403262",
+        "name": "topics_assign",
+        "func": "const topic_key = env.get(\"topic_key\")\nconst selectTopic = msg[topic_key]\n\nconst status_key = env.get(\"status_key\")\nconst selectStatus = msg[status_key] || \"new\"\n\n\nconst statusFlow = {\n    \"new\": \"proc\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Array()\nconst topic_proc = topicStatus.get(nextStatus) || new Array()\n\nconst topicTicket = topic_new.pop()\nconsole.log(\"topicTicket\", topicTicket)\nif (!topicTicket) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.push(topicTicket)\n\ntopicStatus.set(selectStatus, topic_new) || new Array()\ntopicStatus.set(nextStatus, topic_proc) || new Array()\ntopics.set(selectTopic, topicStatus) || new Map()\nglobal.set(\"TOPICS\", topics) || new Map()\n\nmsg = Object.assign(msg, { payload: { topic: topicTicket, topicTicket: JSON.stringify(topicTicket) } });\n\nreturn [msg, null]",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 80,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9824a4787a5aa8d6",
+        "type": "function",
+        "z": "b8cfb4b94405d94d",
+        "name": "fillter topic",
+        "func": "const TARGET_TOPICS = (env.get(\"TOPICS\") || \"topic1,topic2\").split(',')\nconst topic = msg.payload.PAYLOAD.topic\nmsg.topic = topic\nif (TARGET_TOPICS.indexOf(topic) > -1) return [msg, null]\nreturn [null, msg]",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 80,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a27285317db43ec7",
+        "type": "function",
+        "z": "d6f01b04a12d7282",
+        "name": "topic_add",
+        "func": "const topicTicket = msg.payload.topic //{topic: \"\",param: { }}\n\nif (!topicTicket) return msg\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topicStatus = topics.get(topicName) || new Map()\nconst topic = topicStatus.get(\"new\") || new Array()\ntopic.push(topicTicket)\ntopicStatus.set(\"new\", topic)\ntopics.set(topicName, topicStatus)\nglobal.set(\"TOPICS\", topics)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "126cbf276ed23332",
+        "type": "function",
+        "z": "0eb6c089a1f171e9",
+        "name": "topics_list",
+        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\n\nconst selectStatus = msg.status || \"new\"\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topics_list = new Array()\n\nfor (const [topicName, topicStatus] of topics) {\n    const topic_new = topicStatus.get(selectStatus) || new Array()\n    if (topic_new.length > 0) topics_list.push(topicName)\n}\n\nmsg = Object.assign(msg, { payload: { list: topics_list}});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e4f436cc7dbe9cfd",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "PINGREQ",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "test",
+        "payloadType": "str",
+        "x": 120,
+        "y": 100,
+        "wires": [
+            [
+                "86db81d4646a1b23"
+            ]
+        ]
+    },
+    {
+        "id": "8436d950506a6455",
+        "type": "switch",
+        "z": "f01882c08732b397",
+        "name": "",
+        "property": "payload.COMMAND",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "CONNECT",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "CONNACK",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "PINGREQ",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "PINGRESP",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "TOPIC",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 290,
+        "y": 300,
+        "wires": [
+            [
+                "9ea5aeec71174e3f"
+            ],
+            [
+                "7cccfcec40ecbf10"
+            ],
+            [
+                "ed74f720bc1d1a06"
+            ],
+            [
+                "45a4ad7677cb1357"
+            ],
+            [
+                "ee671845d9ea352c"
+            ]
+        ]
+    },
+    {
+        "id": "2bbd39fa02b50886",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "CONNECT",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "test",
+        "payloadType": "str",
+        "x": 130,
+        "y": 40,
+        "wires": [
+            [
+                "fda60e2d1718673e"
+            ]
+        ]
+    },
+    {
+        "id": "45a4ad7677cb1357",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "PROC PINGRESP",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7cccfcec40ecbf10",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "PROC CONNACK",
+        "func": "\nif (msg.payload.CLUSTER_ROLE !== \"jobctl\") return msg;\nconst JOBCTL_HOST = {\n    HOST: msg.payload.CLUSTER_SERVICE_HOST || msg.payload.CLUSTER_SERVICE_IP,\n    IP: msg.payload.CLUSTER_SERVICE_IP || msg.payload.CLUSTER_SERVICE_HOST,\n    HTTP_PORT: msg.payload.CLUSTER_SERVICE_HTTP_PORT || \"1880\",\n    UDP_PORT: msg.payload.CLUSTER_SERVICE_UDP_PORT || \"2880\",\n\n    NODE_RED_VERSION: msg.payload.NODE_RED_VERSION,\n    ROLE: msg.payload.CLUSTER_ROLE\n}\nglobal.set(\"JOBCTL_HOST\", JOBCTL_HOST)\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 240,
+        "wires": [
+            [
+                "b2f8be8bbe3568c3"
+            ]
+        ]
+    },
+    {
+        "id": "b2f8be8bbe3568c3",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "5ba8ddc5b2654cdb",
+        "type": "subflow:0cd70b49340abfe2",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 140,
+        "y": 300,
+        "wires": [
+            [
+                "8436d950506a6455"
+            ]
+        ]
+    },
+    {
+        "id": "fda60e2d1718673e",
+        "type": "subflow:610d7761aec803a7",
+        "z": "f01882c08732b397",
+        "name": "SEND CONNECT",
+        "env": [
+            {
+                "name": "COMMAND",
+                "value": "CONNECT",
+                "type": "str"
+            }
+        ],
+        "x": 330,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "86db81d4646a1b23",
+        "type": "subflow:610d7761aec803a7",
+        "z": "f01882c08732b397",
+        "name": "SEND PINGREQ",
+        "env": [
+            {
+                "name": "COMMAND",
+                "value": "PINGREQ",
+                "type": "str"
+            }
+        ],
+        "x": 330,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "f2e62be0eb17e40b",
+        "type": "subflow:610d7761aec803a7",
+        "z": "f01882c08732b397",
+        "name": "SEND CONNACK",
+        "env": [
+            {
+                "name": "COMMAND",
+                "value": "CONNACK",
+                "type": "str"
+            },
+            {
+                "name": "BROADCAST",
+                "value": "false",
+                "type": "bool"
+            }
+        ],
+        "x": 930,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ed74f720bc1d1a06",
+        "type": "subflow:610d7761aec803a7",
+        "z": "f01882c08732b397",
+        "name": "SEND PINGRESP",
+        "env": [
+            {
+                "name": "COMMAND",
+                "value": "PINGRESP",
+                "type": "str"
+            },
+            {
+                "name": "BROADCAST",
+                "value": "false",
+                "type": "bool"
+            }
+        ],
+        "x": 710,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "4d46a60857314847",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "",
+        "props": [
+            {
+                "p": "payload.topic",
+                "v": "{\t    \"topic\" : \"topic1\",\t    \"param\": {\"hoge\":\"new\"}\t}\t",
+                "vt": "jsonata"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 560,
+        "wires": [
+            [
+                "6107c34b869084b6"
+            ]
+        ]
+    },
+    {
+        "id": "33bb87efab5d968d",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "ac2a315462d87886",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "",
+        "props": [
+            {
+                "p": "payload.topic",
+                "v": "{\t    \"topic\" : \"topic2\",\t    \"param\": {\"hoge\":\"new\"}\t}\t",
+                "vt": "jsonata"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 600,
+        "wires": [
+            [
+                "6107c34b869084b6"
+            ]
+        ]
+    },
+    {
+        "id": "aa4d0d058a0439a4",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "topic2",
+        "x": 110,
+        "y": 1000,
+        "wires": [
+            [
+                "ab659cb4f6490749"
+            ]
+        ]
+    },
+    {
+        "id": "e7eb728a17f08d75",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "topic1",
+        "x": 110,
+        "y": 960,
+        "wires": [
+            [
+                "ab659cb4f6490749"
+            ]
+        ]
+    },
+    {
+        "id": "75aa04f7b0569c59",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 680,
+        "wires": [
+            [
+                "041f26bfc1e571d0"
+            ]
+        ]
+    },
+    {
+        "id": "5d916e713fcb54d6",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "210c38446e598771",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "splet array",
+        "func": "\nconst list = msg.payload.list\n\nfor (const key in list) {\n    node.send({ payload: { topic: list[key] } });\n}\n\n//node.done();\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 680,
+        "wires": [
+            [
+                "7b3627b6af144639"
+            ]
+        ]
+    },
+    {
+        "id": "7b3627b6af144639",
+        "type": "subflow:610d7761aec803a7",
+        "z": "f01882c08732b397",
+        "name": "SEND TOPIC",
+        "env": [
+            {
+                "name": "COMMAND",
+                "value": "TOPIC",
+                "type": "str"
+            }
+        ],
+        "x": 1040,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "70fa88a3c6d0a19e",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "PROC CONNECT",
+        "func": "if (msg.payload.CLUSTER_ROLE !== \"processor\") return msg;\nconst PROCESSOR_HOSTS = global.get(\"PROCESSOR_HOSTS\") || new Map();\nconst fromip = `${msg.payload.CLUSTER_SERVICE_HOST}:${msg.payload.CLUSTER_SERVICE_HTTP_PORT || \"1880\"}`\nPROCESSOR_HOSTS.set(fromip, {\n    HOST: msg.payload.CLUSTER_SERVICE_HOST || msg.payload.CLUSTER_SERVICE_IP,\n    IP: msg.payload.CLUSTER_SERVICE_IP || msg.payload.CLUSTER_SERVICE_HOST,\n    HTTP_PORT: msg.payload.CLUSTER_SERVICE_HTTP_PORT || \"1880\",\n    UDP_PORT: msg.payload.CLUSTER_SERVICE_UDP_PORT || \"2880\",\n\n    NODE_RED_VERSION: msg.payload.NODE_RED_VERSION,\n    ROLE: msg.payload.CLUSTER_ROLE\n})\nglobal.set(\"PROCESSOR_HOSTS\", PROCESSOR_HOSTS)\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 140,
+        "wires": [
+            [
+                "f2e62be0eb17e40b"
+            ]
+        ]
+    },
+    {
+        "id": "9ea5aeec71174e3f",
+        "type": "subflow:b3da594ab22fa515",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 450,
+        "y": 200,
+        "wires": [
+            [
+                "70fa88a3c6d0a19e"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ee671845d9ea352c",
+        "type": "subflow:b3da594ab22fa515",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 450,
+        "y": 360,
+        "wires": [
+            [],
+            [
+                "94d6237a4dccb2c1"
+            ]
+        ]
+    },
+    {
+        "id": "6ba98e1b7807101c",
+        "type": "subflow:375ee1d6cf6e3891",
+        "z": "f01882c08732b397",
+        "name": "",
+        "env": [
+            {
+                "name": "actionType",
+                "value": "assign",
+                "type": "str"
+            },
+            {
+                "name": "topic_key",
+                "value": "topic",
+                "type": "str"
+            }
+        ],
+        "x": 820,
+        "y": 460,
+        "wires": [
+            [
+                "b5c4a70c5f29ce30"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ac71904c6ec568e3",
+        "type": "http in",
+        "z": "f01882c08732b397",
+        "name": "topic assign",
+        "url": "/assign/:jobsession/:topic",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 800,
+        "wires": [
+            [
+                "66bb7f7f83faa6c9"
+            ]
+        ]
+    },
+    {
+        "id": "66bb7f7f83faa6c9",
+        "type": "change",
+        "z": "f01882c08732b397",
+        "name": "set parameter",
+        "rules": [
+            {
+                "t": "set",
+                "p": "jobsession",
+                "pt": "msg",
+                "to": "req.params.jobsession",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "req.params.topic",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 800,
+        "wires": [
+            [
+                "879ef2c221179d06"
+            ]
+        ]
+    },
+    {
+        "id": "b781c8a3c7f1c961",
+        "type": "http response",
+        "z": "f01882c08732b397",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1060,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "ab659cb4f6490749",
+        "type": "subflow:c826488602403262",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 580,
+        "y": 960,
+        "wires": [
+            [
+                "5d916e713fcb54d6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "879ef2c221179d06",
+        "type": "subflow:c826488602403262",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 580,
+        "y": 800,
+        "wires": [
+            [
+                "79e4f9b83a026d95",
+                "fa378d358dbc8c4f"
+            ],
+            [
+                "b3b1347496e2aea7"
+            ]
+        ]
+    },
+    {
+        "id": "79e4f9b83a026d95",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "5f8645481b17a6ba",
+        "type": "http response",
+        "z": "f01882c08732b397",
+        "name": "",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1060,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "94d6237a4dccb2c1",
+        "type": "subflow:b8cfb4b94405d94d",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 620,
+        "y": 380,
+        "wires": [
+            [
+                "998fa97d665f6910"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "6107c34b869084b6",
+        "type": "subflow:d6f01b04a12d7282",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 500,
+        "y": 600,
+        "wires": [
+            [
+                "33bb87efab5d968d",
+                "041f26bfc1e571d0"
+            ]
+        ]
+    },
+    {
+        "id": "041f26bfc1e571d0",
+        "type": "subflow:0eb6c089a1f171e9",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 500,
+        "y": 680,
+        "wires": [
+            [
+                "210c38446e598771"
+            ]
+        ]
+    },
+    {
+        "id": "b5c4a70c5f29ce30",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "function 1",
+        "func": "\nmsg.payload.topic = msg.payload.topicTicket \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 460,
+        "wires": [
+            [
+                "34b2fe4d83ebfabd"
+            ]
+        ]
+    },
+    {
+        "id": "a3df910fbddb4b08",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "fa378d358dbc8c4f",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "assing result",
+        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"job-session\": msg.jobsession,\n    \"topic\": msg.topic,\n    \"topicTicket\": msg.payload.topic\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 800,
+        "wires": [
+            [
+                "b781c8a3c7f1c961"
+            ]
+        ]
+    },
+    {
+        "id": "b3b1347496e2aea7",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "assing result",
+        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"job-session\": msg.jobsession,\n    \"topic\": msg.topic\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 880,
+        "wires": [
+            [
+                "5f8645481b17a6ba"
+            ]
+        ]
+    },
+    {
+        "id": "34b2fe4d83ebfabd",
+        "type": "subflow:d6f01b04a12d7282",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 1100,
+        "y": 460,
+        "wires": [
+            [
+                "a3df910fbddb4b08"
+            ]
+        ]
+    },
+    {
+        "id": "998fa97d665f6910",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "waitlist_add",
+        "func": "const topicTicket = msg.payload.PAYLOAD.topic || {\n    topic : \"\"\n}\n\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst waitlist = global.get(\"WAITLIST_TOPICS\") || new Array()\nwaitlist.push(topicTicket)\nglobal.set(\"WAITLIST_TOPICS\", waitlist)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 360,
+        "wires": [
+            [
+                "5dea2ffd6ba78f15"
+            ]
+        ]
+    },
+    {
+        "id": "f0ac4de4ad9cb846",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "waitlist_assign",
+        "func": "const waitlist = global.get(\"WAITLIST_TOPICS\") || new Array()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicTicket = waitlist.pop()\nconsole.log(\"topicTicket\", topicTicket)\nif (!topicTicket) return [null, msg]\nglobal.set(\"WAITLIST_TOPICS\", waitlist)\nmsg = Object.assign(msg, { topic: topicTicket });\nreturn [msg, null]",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 480,
+        "wires": [
+            [
+                "6ba98e1b7807101c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "1f3ab957cfee13dc",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "get topic",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 120,
+        "y": 460,
+        "wires": [
+            [
+                "38248fd232e9cb7a"
+            ]
+        ]
+    },
+    {
+        "id": "5dea2ffd6ba78f15",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 10",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "38248fd232e9cb7a",
+        "type": "subflow:b3da594ab22fa515",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 390,
+        "y": 460,
+        "wires": [
+            [],
+            [
+                "f0ac4de4ad9cb846"
+            ]
+        ]
+    }
+]
