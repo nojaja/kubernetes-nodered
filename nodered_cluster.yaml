@@ -56,8 +56,6 @@ spec:
             memory: 8Gi
             cpu: 500m
       volumes:
-        - name: nodered-tmp-cache-volume
-          emptyDir: {}
         - name: nodered-data-store-volume
           persistentVolumeClaim:
             claimName: nodered-data-pvc

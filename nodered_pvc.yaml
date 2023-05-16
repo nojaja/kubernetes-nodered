@@ -3,34 +3,34 @@ kind: PersistentVolumeClaim
 metadata:
   name: nodered-workspace-pvc
 spec:
+  accessModes:
+    - ReadWriteOnce
   storageClassName: hostpath
   resources:
     requests:
       storage: 2Gi
-  accessModes:
-    - ReadWriteOnce
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nodered-data-pvc
 spec:
+  accessModes:
+    - ReadWriteOnce
   storageClassName: hostpath
   resources:
     requests:
       storage: 2Gi
-  accessModes:
-    - ReadWriteOnce
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nodered-output-pvc
 spec:
+  accessModes:
+    - ReadWriteOnce
   storageClassName: hostpath
   resources:
     requests:
       storage: 2Gi
-  accessModes:
-    - ReadWriteOnce
 ---
