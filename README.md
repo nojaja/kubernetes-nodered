@@ -32,6 +32,18 @@ kubectl delete -f ./nodered_cluster.yaml
 kubectl exec -it nodered-deployment-555ddd579f-r4wts -c nodered-server -- sh
 ```
 
+# 手元のマシンから Kubernetes Pod にファイルをアップロードする
+```
+tar cvfz node_modules.tgz ./node_modules
+kubectl cp ./node_modules.tgz nodered-deployment-574b64d5fd-64fzk:/workspace/node_modules.tgz
+```
+
+# Kubernetes Pod にあるファイルを手元のマシンにダウンロードする
+```
+kubectl cp nodered-deployment-574b64d5fd-64fzk:/workspace/node_modules.tgz ./node_modules.tgz
+tar xvfz /workspace/node_modules.tgz
+```
+
 ```
 kubectl port-forward nodered-deployment-679b5cf798-g85lw 1880:1880
 kubectl port-forward nodered-deployment-679b5cf798-j9f8d 1881:1880

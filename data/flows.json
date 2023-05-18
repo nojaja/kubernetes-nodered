@@ -100,7 +100,10 @@
             {
                 "name": "endpoint",
                 "type": "env",
-                "value": "/${actionType}/:jobsession/:target"
+                "value": "/${actionType}/:topic",
+                "ui": {
+                    "type": "hide"
+                }
             }
         ],
         "meta": {},
@@ -325,11 +328,6 @@
                 "value": "exec"
             },
             {
-                "name": "jobsession_key",
-                "type": "str",
-                "value": "jobsession"
-            },
-            {
                 "name": "topicPath",
                 "type": "str",
                 "value": "topic"
@@ -525,6 +523,66 @@
         "icon": "node-red/db.svg"
     },
     {
+        "id": "f5ba2b0f4e9255e0",
+        "type": "subflow",
+        "name": "topics_update",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "df88c0ce3abe7f11"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 380,
+                "y": 40,
+                "wires": [
+                    {
+                        "id": "df88c0ce3abe7f11",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 380,
+                "y": 100,
+                "wires": [
+                    {
+                        "id": "df88c0ce3abe7f11",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "topicPath",
+                "type": "str",
+                "value": "topic"
+            },
+            {
+                "name": "statusPath",
+                "type": "str",
+                "value": "status"
+            },
+            {
+                "name": "uuidPath",
+                "type": "str",
+                "value": ""
+            }
+        ],
+        "meta": {},
+        "color": "#DEB887",
+        "icon": "node-red/db.svg"
+    },
+    {
         "id": "8b05743651ac39ce",
         "type": "function",
         "z": "cd185f8f533e0f2d",
@@ -608,16 +666,9 @@
         "rules": [
             {
                 "t": "set",
-                "p": "jobsession",
+                "p": "topic",
                 "pt": "msg",
-                "to": "req.params.jobsession",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "target",
-                "pt": "msg",
-                "to": "req.params.target",
+                "to": "req.params.topic",
                 "tot": "msg"
             },
             {
@@ -633,7 +684,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 320,
+        "x": 280,
         "y": 60,
         "wires": [
             [
@@ -674,7 +725,7 @@
         "type": "function",
         "z": "27227cef106a74f0",
         "name": "assing result",
-        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"job-session\": msg.jobsession,\n    \"target\": msg.target,\n    \"callbackhost\": msg.callbackhost\n}\n\nreturn msg;",
+        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"topic\": msg.topic,\n    \"callbackhost\": msg.callbackhost\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -692,15 +743,15 @@
         "id": "2be49eb745fa791d",
         "type": "function",
         "z": "27227cef106a74f0",
-        "name": "function 6",
-        "func": "if (msg.target) {\n    try {\n        msg.target = JSON.parse(msg.target)\n    } catch (error) {\n    }\n}\n\nreturn msg;",
+        "name": "JSON.parse",
+        "func": "if (msg.topic) {\n    try {\n        msg.topic = JSON.parse(msg.topic)\n    } catch (error) {\n    }\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 500,
-        "y": 80,
+        "x": 470,
+        "y": 60,
         "wires": [
             [
                 "285f8f2fa8f0b214"
@@ -1068,7 +1119,7 @@
         "type": "function",
         "z": "375ee1d6cf6e3891",
         "name": "generate_url",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\n\nconst JOBCTL_HOST = global.get(\"JOBCTL_HOST\")\nconst JOBCTL_SERVICE_IP = JOBCTL_HOST.IP\nconst JOBCTL_SERVICE_HOST_HTTP_PORT = JOBCTL_HOST.HTTP_PORT\nconst action = env.get(\"actionType\")\nconst jobsession_key = env.get(\"jobsession_key\")\nconst jobsession = getPropByPath(msg, jobsession_key)\n\nconst topicPath = env.get(\"topicPath\")\nconst topic = encodeURIComponent(JSON.stringify(getPropByPath(msg, topicPath)))\n\nmsg.joburl = `http://${JOBCTL_SERVICE_IP}:${JOBCTL_SERVICE_HOST_HTTP_PORT}/${action}/${jobsession}/${topic}`\nmsg.topic = topic\nreturn msg",
+        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\n\nconst JOBCTL_HOST = global.get(\"JOBCTL_HOST\")\nconst JOBCTL_SERVICE_IP = JOBCTL_HOST.IP\nconst JOBCTL_SERVICE_HOST_HTTP_PORT = JOBCTL_HOST.HTTP_PORT\nconst actionType = env.get(\"actionType\")\n\nconst topicPath = env.get(\"topicPath\")\nconst topic = encodeURIComponent(JSON.stringify(getPropByPath(msg, topicPath)))\n\nmsg.joburl = `http://${JOBCTL_SERVICE_IP}:${JOBCTL_SERVICE_HOST_HTTP_PORT}/${actionType}/${topic}`\nmsg.topic = topic\nreturn msg",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1117,14 +1168,14 @@
         "id": "ab5c9b3893934684",
         "type": "function",
         "z": "375ee1d6cf6e3891",
-        "name": "function 2",
+        "name": "JSON.parse",
         "func": "if (msg.statusCode == \"200\") {\n    if (msg.payload) {\n        try {\n            msg.payload = JSON.parse(msg.payload)\n        } catch (error) {\n        }\n    }\n    return [msg, null]\n}else{\n\n}\n\nreturn [null, msg];",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 560,
+        "x": 570,
         "y": 80,
         "wires": [
             [],
@@ -1136,7 +1187,7 @@
         "type": "function",
         "z": "c826488602403262",
         "name": "topics_assign",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = getPropByPath(msg, statusPath) || \"new\"\n\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Array()\nconst topic_proc = topicStatus.get(nextStatus) || new Array()\n\nconst topicTicket = topic_new.pop()\nconsole.log(\"topicTicket\", topicTicket)\nif (!topicTicket) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.push(topicTicket)\n\ntopicStatus.set(selectStatus, topic_new) || new Array()\ntopicStatus.set(nextStatus, topic_proc) || new Array()\ntopics.set(selectTopic, topicStatus) || new Map()\nglobal.set(\"TOPICS\", topics) || new Map()\n\nmsg = Object.assign(msg, { payload: { topic: topicTicket, topicTicket: JSON.stringify(topicTicket) } });\n\nreturn [msg, null]",
+        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = getPropByPath(msg, statusPath) || \"new\"\n\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Map()\nconst topic_proc = topicStatus.get(nextStatus) || new Map()\n\nfunction pop(map) {\n    try {\n        return map.get(map.keys().next().value)\n    } catch (error) {\n        return null\n    }\n}\nconst topicTicket = pop(topic_new)\nif (!topicTicket) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.set(topicTicket.uuid, topicTicket)\n\ntopicStatus.set(selectStatus, topic_new) || new Array()\ntopicStatus.set(nextStatus, topic_proc) || new Array()\ntopics.set(selectTopic, topicStatus) || new Map()\nglobal.set(\"TOPICS\", topics) || new Map()\nmsg = Object.assign(msg, { payload: { topic: topicTicket.topic, topicTicket: topicTicket } });\n\nreturn [msg, null]",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -1172,7 +1223,7 @@
         "type": "function",
         "z": "d6f01b04a12d7282",
         "name": "topic_add",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.payload.topic \nconst topicTicket = getPropByPath(msg, topicPath)//{topic: \"\",param: { }}\ntopicTicket.uuid = crypto.randomUUID()\n\n\nif (!topicTicket) return msg\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topicStatus = topics.get(topicName) || new Map()\nconst topic = topicStatus.get(\"new\") || new Array()\ntopic.push(topicTicket)\ntopicStatus.set(\"new\", topic)\ntopics.set(topicName, topicStatus)\nglobal.set(\"TOPICS\", topics)\n\nreturn msg;",
+        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.payload.topic \nconst topicTicket = getPropByPath(msg, topicPath)//{topic: \"\",param: { }}\ntopicTicket.uuid = crypto.randomUUID()\n\n\nif (!topicTicket) return msg\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topicStatus = topics.get(topicName) || new Map()\nconst topic = topicStatus.get(\"new\") || new Map()\ntopic.set(topicTicket.uuid,topicTicket)\ntopicStatus.set(\"new\", topic)\ntopics.set(topicName, topicStatus)\nglobal.set(\"TOPICS\", topics)\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1194,7 +1245,7 @@
         "type": "function",
         "z": "0eb6c089a1f171e9",
         "name": "topics_list",
-        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\n\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = getPropByPath(msg, statusPath) || \"new\"\n\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topics_list = new Array()\n\nfor (const [topicName, topicStatus] of topics) {\n    const topic_new = topicStatus.get(selectStatus) || new Array()\n    if (topic_new.length > 0) topics_list.push(topicName)\n}\n\nmsg = Object.assign(msg, { payload: { list: topics_list}});\nreturn msg;",
+        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\n\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = getPropByPath(msg, statusPath) || \"new\"\n\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topics_list = new Array()\n\nfor (const [topicName, topicStatus] of topics) {\n    const topic_new = topicStatus.get(selectStatus) || new Map()\n    if (topic_new.size > 0) topics_list.push(topicName)\n}\n\nmsg = Object.assign(msg, { payload: { list: topics_list } });\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1203,6 +1254,24 @@
         "x": 200,
         "y": 80,
         "wires": [
+            []
+        ]
+    },
+    {
+        "id": "df88c0ce3abe7f11",
+        "type": "function",
+        "z": "f5ba2b0f4e9255e0",
+        "name": "topics_update",
+        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = getPropByPath(msg, statusPath) || \"new\"\n\nconst uuidPath = env.get(\"uuidPath\") //ex.msg.status\nconst uuid = getPropByPath(msg, uuidPath) || \"uuid\"\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Map()\nconst topic_proc = topicStatus.get(nextStatus) || new Map()\n\nfunction pop(map) {\n    try {\n        return map.get(map.keys().next().value)\n    } catch (error) {\n        return null\n    }\n}\n\nconst topicTicket = topic_new.get(uuid)\nif (!topicTicket) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.set(topicTicket.uuid, topicTicket)\n\ntopicStatus.set(selectStatus, topic_new) || new Array()\ntopicStatus.set(nextStatus, topic_proc) || new Array()\ntopics.set(selectTopic, topicStatus) || new Map()\nglobal.set(\"TOPICS\", topics) || new Map()\n\nmsg = Object.assign(msg, { payload: { topic: topicTicket.topic, topicTicket: JSON.stringify(topicTicket) } });\n\nreturn [msg, null]",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 80,
+        "wires": [
+            [],
             []
         ]
     },
@@ -1222,12 +1291,9 @@
         "y": 500,
         "wires": [
             [
-                "e0410ad4c1884406",
-                "7c9518edb43f5cec"
+                "e0410ad4c1884406"
             ],
-            [
-                "02d4c0fec9a2f64f"
-            ]
+            []
         ]
     },
     {
@@ -1235,7 +1301,7 @@
         "type": "function",
         "z": "f01882c08732b397",
         "name": "waitlist_assign",
-        "func": "const waitlist = global.get(\"WAITLIST_TOPICS\") || new Array()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicTicket = waitlist.pop()\nconsole.log(\"topicTicket\", topicTicket)\nif (!topicTicket) return [null, msg]\nglobal.set(\"WAITLIST_TOPICS\", waitlist)\nmsg = Object.assign(msg, { topic: topicTicket });\nreturn [msg, null]",
+        "func": "const waitlist = global.get(\"WAITLIST_TOPICS\") || new Array()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicName = waitlist.pop()\nconsole.log(\"topicName\", topicName)\nif (!topicName) return [null, msg]\nglobal.set(\"WAITLIST_TOPICS\", waitlist)\nmsg = Object.assign(msg, { topic: topicName });\nreturn [msg, null]",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -1370,7 +1436,7 @@
         "type": "function",
         "z": "f01882c08732b397",
         "name": "flow limit",
-        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\nconst flowstatus = global.get(\"FLOW_STATUS\") || new Array()\nconst max = global.get(\"FLOW_MAX\") || 1\n\nif (flowstatus.length >= max) return [null, msg]\nreturn [msg, null]\n",
+        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\nconst flowstatus = global.get(\"FLOW_STATUS\") || new Map()\nconst max = global.get(\"FLOW_MAX\") || 1\n\nif (flowstatus.size >= max) return [null, msg]\nreturn [msg, null]\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -1390,8 +1456,8 @@
         "type": "function",
         "z": "f01882c08732b397",
         "name": "flow start",
-        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\nconst flowstatus = global.get(\"FLOW_STATUS\") || new Array()\n\nflowstatus.push(msg.payload.topicTicket)\n\nglobal.set(\"FLOW_STATUS\", flowstatus)\nreturn msg\n",
-        "outputs": 1,
+        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\nconst flowstatus = global.get(\"FLOW_STATUS\") || new Map()\n\nconst topicTicket = msg.payload.topicTicket\nconst uuid = topicTicket.uuid\nif (flowstatus.has(uuid)) return [null, msg]\nflowstatus.set(uuid, topicTicket)\nglobal.set(\"FLOW_STATUS\", flowstatus)\nmsg.topicTicket = topicTicket\nmsg.topic = topicTicket.topic\nmsg.uuid = uuid\nreturn [msg, null]\n",
+        "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -1400,8 +1466,10 @@
         "y": 500,
         "wires": [
             [
-                "0385629247bbb46e"
-            ]
+                "0385629247bbb46e",
+                "878a855ba718978e"
+            ],
+            []
         ]
     },
     {
@@ -1416,42 +1484,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1120,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "7c9518edb43f5cec",
-        "type": "debug",
-        "z": "f01882c08732b397",
-        "name": "debug 16",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 960,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "02d4c0fec9a2f64f",
-        "type": "debug",
-        "z": "f01882c08732b397",
-        "name": "debug 17",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 960,
-        "y": 560,
+        "x": 1140,
+        "y": 460,
         "wires": []
     },
     {
@@ -1463,6 +1497,11 @@
             {
                 "name": "actionType",
                 "value": "completed",
+                "type": "str"
+            },
+            {
+                "name": "topicPath",
+                "value": "topicTicket",
                 "type": "str"
             }
         ],
@@ -1515,8 +1554,8 @@
         "type": "function",
         "z": "f01882c08732b397",
         "name": "flow end",
-        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\nconst flowstatus = global.get(\"FLOW_STATUS\") || new Array()\n\nflowstatus.push(msg.payload.topicTicket)\n\nglobal.set(\"FLOW_STATUS\", flowstatus)\nreturn msg\n",
-        "outputs": 1,
+        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\nconst flowstatus = global.get(\"FLOW_STATUS\") || new Map()\nconst uuid = msg.uuid\n\nif (!flowstatus.has(uuid)) return [null, msg]\n\nflowstatus.delete(uuid)\nglobal.set(\"FLOW_STATUS\", flowstatus)\nreturn [msg, null]\n",
+        "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -1526,7 +1565,8 @@
         "wires": [
             [
                 "707bc717a0d8c626"
-            ]
+            ],
+            []
         ]
     },
     {
@@ -1543,7 +1583,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 960,
-        "y": 640,
+        "y": 680,
         "wires": []
     },
     {
@@ -1560,25 +1600,8 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 960,
-        "y": 760,
+        "y": 720,
         "wires": []
-    },
-    {
-        "id": "70a044397c3ebb61",
-        "type": "function",
-        "z": "f01882c08732b397",
-        "name": "sleep",
-        "func": "\nsetTimeout(() => {\n    return msg;\n}, 2000);\n\nreturn null;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 350,
-        "y": 600,
-        "wires": [
-            []
-        ]
     },
     {
         "id": "4e90783a35fceb8f",
@@ -1686,6 +1709,31 @@
         "x": 110,
         "y": 640,
         "wires": []
+    },
+    {
+        "id": "878a855ba718978e",
+        "type": "delay",
+        "z": "f01882c08732b397",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 600,
+        "wires": [
+            [
+                "82c3b0b299dbe8a3"
+            ]
+        ]
     },
     {
         "id": "e4f436cc7dbe9cfd",
@@ -2064,7 +2112,7 @@
         "type": "http in",
         "z": "9e36c572bb2b2e0e",
         "name": "topic assign",
-        "url": "/assign/:jobsession/:topic",
+        "url": "/assign/:topic",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
@@ -2082,13 +2130,6 @@
         "z": "9e36c572bb2b2e0e",
         "name": "set parameter",
         "rules": [
-            {
-                "t": "set",
-                "p": "jobsession",
-                "pt": "msg",
-                "to": "req.params.jobsession",
-                "tot": "msg"
-            },
             {
                 "t": "set",
                 "p": "topic",
@@ -2207,7 +2248,7 @@
         "type": "function",
         "z": "9e36c572bb2b2e0e",
         "name": "assing result",
-        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"job-session\": msg.jobsession,\n    \"topic\": msg.topic,\n    \"topicTicket\": msg.payload.topic\n}\n\nreturn msg;",
+        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"topic\": msg.payload.topic,\n    \"topicTicket\": msg.payload.topicTicket\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2226,7 +2267,7 @@
         "type": "function",
         "z": "9e36c572bb2b2e0e",
         "name": "assing result",
-        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"job-session\": msg.jobsession,\n    \"topic\": msg.topic\n}\n\nreturn msg;",
+        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"topic\": msg.topic\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2245,7 +2286,7 @@
         "type": "function",
         "z": "9e36c572bb2b2e0e",
         "name": "waitlist_add",
-        "func": "const topicTicket = msg.payload.PAYLOAD.topic || {\n    topic : \"\"\n}\n\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst waitlist = global.get(\"WAITLIST_TOPICS\") || new Array()\nwaitlist.push(topicTicket)\nglobal.set(\"WAITLIST_TOPICS\", waitlist)\n\nreturn msg;",
+        "func": "const topicName = msg.payload.PAYLOAD.topic || \"\"\n\n//{topicname:[{topic:\"\",param: {}}}]}\nconst waitlist = global.get(\"WAITLIST_TOPICS\") || new Array()\nwaitlist.push(topicName)\nglobal.set(\"WAITLIST_TOPICS\", waitlist)\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2305,7 +2346,7 @@
                 "t": "set",
                 "p": "payload.topic",
                 "pt": "msg",
-                "to": "target",
+                "to": "topic",
                 "tot": "msg"
             }
         ],
@@ -2362,7 +2403,7 @@
         "type": "function",
         "z": "9e36c572bb2b2e0e",
         "name": "function 3",
-        "func": "msg.payload = { topic: msg.payload.topic.topic}\nreturn msg;",
+        "func": "msg.payload = { topic: msg.payload.topic }\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2391,27 +2432,9 @@
         "y": 880,
         "wires": [
             [
-                "879ef2c221179d06",
-                "0f118d20aed5b651"
+                "879ef2c221179d06"
             ]
         ]
-    },
-    {
-        "id": "0f118d20aed5b651",
-        "type": "debug",
-        "z": "9e36c572bb2b2e0e",
-        "name": "debug 18",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 660,
-        "y": 960,
-        "wires": []
     },
     {
         "id": "0875188206215aa8",
@@ -2437,9 +2460,9 @@
         "id": "0b9f36fafe8b569f",
         "type": "comment",
         "z": "9e36c572bb2b2e0e",
-        "name": "procからtopicのstatus更新",
+        "name": "procにtopicのassign",
         "info": "",
-        "x": 150,
+        "x": 130,
         "y": 840,
         "wires": []
     },
@@ -2471,6 +2494,223 @@
         "info": "",
         "x": 120,
         "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ba396e40b915898a",
+        "type": "http in",
+        "z": "9e36c572bb2b2e0e",
+        "name": "topic completed",
+        "url": "/completed/:topic",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 1040,
+        "wires": [
+            [
+                "cc1c306c7a0b926e"
+            ]
+        ]
+    },
+    {
+        "id": "cc1c306c7a0b926e",
+        "type": "change",
+        "z": "9e36c572bb2b2e0e",
+        "name": "set parameter",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "req.params.topic",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "status",
+                "pt": "msg",
+                "to": "in-progress",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 1040,
+        "wires": [
+            [
+                "8c6807c1605b1cf9"
+            ]
+        ]
+    },
+    {
+        "id": "faaa745d4c17dcae",
+        "type": "http response",
+        "z": "9e36c572bb2b2e0e",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1060,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "bb91929872a6fdeb",
+        "type": "http response",
+        "z": "9e36c572bb2b2e0e",
+        "name": "",
+        "statusCode": "400",
+        "headers": {},
+        "x": 1060,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "c329f731b22b9173",
+        "type": "function",
+        "z": "9e36c572bb2b2e0e",
+        "name": "assing result",
+        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"topic\": msg.payload.topic,\n    \"topicTicket\": msg.payload.topicTicket\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 1040,
+        "wires": [
+            [
+                "faaa745d4c17dcae"
+            ]
+        ]
+    },
+    {
+        "id": "36e36c6b56939fed",
+        "type": "function",
+        "z": "9e36c572bb2b2e0e",
+        "name": "assing result",
+        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"topic\": msg.topic\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 1080,
+        "wires": [
+            [
+                "bb91929872a6fdeb"
+            ]
+        ]
+    },
+    {
+        "id": "8c6807c1605b1cf9",
+        "type": "function",
+        "z": "9e36c572bb2b2e0e",
+        "name": "JSON.parse",
+        "func": "if (msg.topic) {\n    try {\n        msg.topic = JSON.parse(msg.topic)\n    } catch (error) {\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1040,
+        "wires": [
+            [
+                "b0c2ea79747bd703",
+                "e8dfbc55efe2889f"
+            ]
+        ]
+    },
+    {
+        "id": "b0c2ea79747bd703",
+        "type": "debug",
+        "z": "9e36c572bb2b2e0e",
+        "name": "debug 23",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "32f629c82e7afe15",
+        "type": "comment",
+        "z": "9e36c572bb2b2e0e",
+        "name": "procからtopic完了受信",
+        "info": "",
+        "x": 140,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "e8dfbc55efe2889f",
+        "type": "subflow:f5ba2b0f4e9255e0",
+        "z": "9e36c572bb2b2e0e",
+        "name": "",
+        "env": [
+            {
+                "name": "uuidPath",
+                "value": "topic/uuid",
+                "type": "str"
+            }
+        ],
+        "x": 650,
+        "y": 1040,
+        "wires": [
+            [
+                "c329f731b22b9173",
+                "bdf81798cfb78125"
+            ],
+            [
+                "36e36c6b56939fed",
+                "87e5bc424e97a5ed"
+            ]
+        ]
+    },
+    {
+        "id": "bdf81798cfb78125",
+        "type": "debug",
+        "z": "9e36c572bb2b2e0e",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "87e5bc424e97a5ed",
+        "type": "debug",
+        "z": "9e36c572bb2b2e0e",
+        "name": "debug 28",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 1120,
         "wires": []
     },
     {
