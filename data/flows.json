@@ -2,7 +2,7 @@
     {
         "id": "f01882c08732b397",
         "type": "tab",
-        "label": "フロー 1",
+        "label": "PROC管理",
         "disabled": false,
         "info": "",
         "env": []
@@ -11,6 +11,14 @@
         "id": "9e36c572bb2b2e0e",
         "type": "tab",
         "label": "フロー 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "dbd8abb392121dc1",
+        "type": "tab",
+        "label": "JOBCTL_管理用",
         "disabled": false,
         "info": "",
         "env": []
@@ -1164,12 +1172,17 @@
         "type": "function",
         "z": "d6f01b04a12d7282",
         "name": "topic_add",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.payload.topic \nconst topicTicket = getPropByPath(msg, topicPath)//{topic: \"\",param: { }}\n\n\nif (!topicTicket) return msg\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topicStatus = topics.get(topicName) || new Map()\nconst topic = topicStatus.get(\"new\") || new Array()\ntopic.push(topicTicket)\ntopicStatus.set(\"new\", topic)\ntopics.set(topicName, topicStatus)\nglobal.set(\"TOPICS\", topics)\n\nreturn msg;",
+        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.payload.topic \nconst topicTicket = getPropByPath(msg, topicPath)//{topic: \"\",param: { }}\ntopicTicket.uuid = crypto.randomUUID()\n\n\nif (!topicTicket) return msg\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topicStatus = topics.get(topicName) || new Map()\nconst topic = topicStatus.get(\"new\") || new Array()\ntopic.push(topicTicket)\ntopicStatus.set(\"new\", topic)\ntopics.set(topicName, topicStatus)\nglobal.set(\"TOPICS\", topics)\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "libs": [],
+        "libs": [
+            {
+                "var": "crypto",
+                "module": "crypto"
+            }
+        ],
         "x": 200,
         "y": 80,
         "wires": [
@@ -1206,7 +1219,7 @@
             }
         ],
         "x": 800,
-        "y": 460,
+        "y": 500,
         "wires": [
             [
                 "e0410ad4c1884406",
@@ -1229,7 +1242,7 @@
         "finalize": "",
         "libs": [],
         "x": 620,
-        "y": 460,
+        "y": 500,
         "wires": [
             [
                 "ca70b65374e24ae8"
@@ -1249,7 +1262,7 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 120,
-        "y": 460,
+        "y": 500,
         "wires": [
             [
                 "b19fa56a77429a44"
@@ -1262,91 +1275,12 @@
         "z": "f01882c08732b397",
         "name": "",
         "x": 430,
-        "y": 460,
+        "y": 500,
         "wires": [
             [],
             [
                 "2e548032e1145bc9"
             ]
-        ]
-    },
-    {
-        "id": "aa4d0d058a0439a4",
-        "type": "inject",
-        "z": "f01882c08732b397",
-        "name": "",
-        "props": [
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "topic2",
-        "x": 110,
-        "y": 260,
-        "wires": [
-            [
-                "ab659cb4f6490749"
-            ]
-        ]
-    },
-    {
-        "id": "e7eb728a17f08d75",
-        "type": "inject",
-        "z": "f01882c08732b397",
-        "name": "",
-        "props": [
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "topic1",
-        "x": 110,
-        "y": 220,
-        "wires": [
-            [
-                "ab659cb4f6490749"
-            ]
-        ]
-    },
-    {
-        "id": "5d916e713fcb54d6",
-        "type": "debug",
-        "z": "f01882c08732b397",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 840,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "ab659cb4f6490749",
-        "type": "subflow:c826488602403262",
-        "z": "f01882c08732b397",
-        "name": "",
-        "x": 580,
-        "y": 220,
-        "wires": [
-            [
-                "5d916e713fcb54d6"
-            ],
-            []
         ]
     },
     {
@@ -1443,7 +1377,7 @@
         "finalize": "",
         "libs": [],
         "x": 260,
-        "y": 460,
+        "y": 500,
         "wires": [
             [
                 "60ccecf9024cc129"
@@ -1463,7 +1397,7 @@
         "finalize": "",
         "libs": [],
         "x": 960,
-        "y": 460,
+        "y": 500,
         "wires": [
             [
                 "0385629247bbb46e"
@@ -1483,7 +1417,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1120,
-        "y": 460,
+        "y": 500,
         "wires": []
     },
     {
@@ -1500,7 +1434,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 960,
-        "y": 400,
+        "y": 440,
         "wires": []
     },
     {
@@ -1517,7 +1451,240 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 960,
-        "y": 520,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "707bc717a0d8c626",
+        "type": "subflow:375ee1d6cf6e3891",
+        "z": "f01882c08732b397",
+        "name": "topic 完了",
+        "env": [
+            {
+                "name": "actionType",
+                "value": "completed",
+                "type": "str"
+            }
+        ],
+        "x": 740,
+        "y": 700,
+        "wires": [
+            [
+                "88fda1c4f25cba11"
+            ],
+            [
+                "dd5d0984cf0af806"
+            ]
+        ]
+    },
+    {
+        "id": "0b5ba824438008c4",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "completed topic",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 140,
+        "y": 700,
+        "wires": [
+            [
+                "82c3b0b299dbe8a3"
+            ]
+        ]
+    },
+    {
+        "id": "82c3b0b299dbe8a3",
+        "type": "subflow:b3da594ab22fa515",
+        "z": "f01882c08732b397",
+        "name": "",
+        "x": 350,
+        "y": 700,
+        "wires": [
+            [],
+            [
+                "f2b282801e277ec6"
+            ]
+        ]
+    },
+    {
+        "id": "f2b282801e277ec6",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "flow end",
+        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\nconst flowstatus = global.get(\"FLOW_STATUS\") || new Array()\n\nflowstatus.push(msg.payload.topicTicket)\n\nglobal.set(\"FLOW_STATUS\", flowstatus)\nreturn msg\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 700,
+        "wires": [
+            [
+                "707bc717a0d8c626"
+            ]
+        ]
+    },
+    {
+        "id": "88fda1c4f25cba11",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "dd5d0984cf0af806",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "70a044397c3ebb61",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "sleep",
+        "func": "\nsetTimeout(() => {\n    return msg;\n}, 2000);\n\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4e90783a35fceb8f",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "Sample Topic1",
+        "props": [
+            {
+                "p": "payload.topic",
+                "v": "{\t    \"topic\" : \"topic1\",\t    \"param\": {\"hoge\":\"new\"}\t}\t",
+                "vt": "jsonata"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "e61870e6384df480"
+            ]
+        ]
+    },
+    {
+        "id": "e61870e6384df480",
+        "type": "subflow:375ee1d6cf6e3891",
+        "z": "f01882c08732b397",
+        "name": "",
+        "env": [
+            {
+                "name": "actionType",
+                "value": "addtopic",
+                "type": "str"
+            },
+            {
+                "name": "topicPath",
+                "value": "payload/topic",
+                "type": "str"
+            }
+        ],
+        "x": 360,
+        "y": 160,
+        "wires": [
+            [
+                "938bc7c1342ffed9"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "938bc7c1342ffed9",
+        "type": "debug",
+        "z": "f01882c08732b397",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "1337ddaae1e0b4f2",
+        "type": "comment",
+        "z": "f01882c08732b397",
+        "name": "新規topicの登録",
+        "info": "",
+        "x": 120,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8c81cd4c7fdd8486",
+        "type": "comment",
+        "z": "f01882c08732b397",
+        "name": "部品",
+        "info": "",
+        "x": 90,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "6f67feb8aaf36c3d",
+        "type": "comment",
+        "z": "f01882c08732b397",
+        "name": "topicを取得して着手",
+        "info": "",
+        "x": 130,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "d531f9b3819a76e3",
+        "type": "comment",
+        "z": "f01882c08732b397",
+        "name": "topicを完了",
+        "info": "",
+        "x": 110,
+        "y": 640,
         "wires": []
     },
     {
@@ -1542,7 +1709,7 @@
         "payload": "test",
         "payloadType": "str",
         "x": 120,
-        "y": 100,
+        "y": 200,
         "wires": [
             [
                 "86db81d4646a1b23"
@@ -1587,7 +1754,7 @@
         "repair": false,
         "outputs": 5,
         "x": 290,
-        "y": 300,
+        "y": 400,
         "wires": [
             [
                 "9ea5aeec71174e3f"
@@ -1628,7 +1795,7 @@
         "payload": "test",
         "payloadType": "str",
         "x": 130,
-        "y": 40,
+        "y": 80,
         "wires": [
             [
                 "fda60e2d1718673e"
@@ -1649,7 +1816,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 710,
-        "y": 320,
+        "y": 420,
         "wires": []
     },
     {
@@ -1664,7 +1831,7 @@
         "finalize": "",
         "libs": [],
         "x": 710,
-        "y": 240,
+        "y": 340,
         "wires": [
             [
                 "b2f8be8bbe3568c3"
@@ -1685,7 +1852,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 900,
-        "y": 240,
+        "y": 340,
         "wires": []
     },
     {
@@ -1694,7 +1861,7 @@
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 140,
-        "y": 300,
+        "y": 400,
         "wires": [
             [
                 "8436d950506a6455"
@@ -1714,7 +1881,7 @@
             }
         ],
         "x": 330,
-        "y": 40,
+        "y": 80,
         "wires": []
     },
     {
@@ -1730,7 +1897,7 @@
             }
         ],
         "x": 330,
-        "y": 100,
+        "y": 200,
         "wires": []
     },
     {
@@ -1751,7 +1918,7 @@
             }
         ],
         "x": 930,
-        "y": 140,
+        "y": 280,
         "wires": []
     },
     {
@@ -1772,33 +1939,8 @@
             }
         ],
         "x": 710,
-        "y": 280,
+        "y": 380,
         "wires": []
-    },
-    {
-        "id": "4d46a60857314847",
-        "type": "inject",
-        "z": "9e36c572bb2b2e0e",
-        "name": "Sample Topic1",
-        "props": [
-            {
-                "p": "payload.topic",
-                "v": "{\t    \"topic\" : \"topic1\",\t    \"param\": {\"hoge\":\"new\"}\t}\t",
-                "vt": "jsonata"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 640,
-        "wires": [
-            [
-                "6107c34b869084b6"
-            ]
-        ]
     },
     {
         "id": "33bb87efab5d968d",
@@ -1813,33 +1955,8 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1120,
-        "y": 680,
+        "y": 640,
         "wires": []
-    },
-    {
-        "id": "ac2a315462d87886",
-        "type": "inject",
-        "z": "9e36c572bb2b2e0e",
-        "name": "Sample Topic2",
-        "props": [
-            {
-                "p": "payload.topic",
-                "v": "{\t    \"topic\" : \"topic2\",\t    \"param\": {\"hoge\":\"new\"}\t}\t",
-                "vt": "jsonata"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 680,
-        "wires": [
-            [
-                "6107c34b869084b6"
-            ]
-        ]
     },
     {
         "id": "75aa04f7b0569c59",
@@ -1853,7 +1970,7 @@
         "onceDelay": "20",
         "topic": "",
         "x": 150,
-        "y": 760,
+        "y": 780,
         "wires": [
             [
                 "33ff37445fd71e22"
@@ -1872,7 +1989,7 @@
         "finalize": "",
         "libs": [],
         "x": 750,
-        "y": 760,
+        "y": 780,
         "wires": [
             [
                 "038dbdaf6002571c"
@@ -1892,7 +2009,7 @@
             }
         ],
         "x": 1320,
-        "y": 740,
+        "y": 780,
         "wires": []
     },
     {
@@ -1907,7 +2024,7 @@
         "finalize": "",
         "libs": [],
         "x": 710,
-        "y": 140,
+        "y": 280,
         "wires": [
             [
                 "f2e62be0eb17e40b"
@@ -1920,7 +2037,7 @@
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 450,
-        "y": 200,
+        "y": 300,
         "wires": [
             [
                 "70fa88a3c6d0a19e"
@@ -1934,34 +2051,11 @@
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 450,
-        "y": 360,
+        "y": 460,
         "wires": [
             [],
             [
                 "94d6237a4dccb2c1"
-            ]
-        ]
-    },
-    {
-        "id": "6ba98e1b7807101c",
-        "type": "subflow:375ee1d6cf6e3891",
-        "z": "9e36c572bb2b2e0e",
-        "name": "",
-        "env": [
-            {
-                "name": "actionType",
-                "value": "assign",
-                "type": "str"
-            }
-        ],
-        "x": 820,
-        "y": 460,
-        "wires": [
-            [
-                "34b2fe4d83ebfabd"
-            ],
-            [
-                "539024e67c720169"
             ]
         ]
     },
@@ -2067,7 +2161,7 @@
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 620,
-        "y": 380,
+        "y": 480,
         "wires": [
             [
                 "998fa97d665f6910"
@@ -2088,7 +2182,7 @@
             }
         ],
         "x": 620,
-        "y": 680,
+        "y": 640,
         "wires": [
             [
                 "33bb87efab5d968d"
@@ -2101,28 +2195,12 @@
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 560,
-        "y": 760,
+        "y": 780,
         "wires": [
             [
                 "210c38446e598771"
             ]
         ]
-    },
-    {
-        "id": "a3df910fbddb4b08",
-        "type": "debug",
-        "z": "9e36c572bb2b2e0e",
-        "name": "debug 9",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1140,
-        "y": 460,
-        "wires": []
     },
     {
         "id": "fa378d358dbc8c4f",
@@ -2163,26 +2241,6 @@
         ]
     },
     {
-        "id": "34b2fe4d83ebfabd",
-        "type": "subflow:d6f01b04a12d7282",
-        "z": "9e36c572bb2b2e0e",
-        "name": "",
-        "env": [
-            {
-                "name": "topicPath",
-                "value": "payload/topicTicket",
-                "type": "str"
-            }
-        ],
-        "x": 980,
-        "y": 460,
-        "wires": [
-            [
-                "a3df910fbddb4b08"
-            ]
-        ]
-    },
-    {
         "id": "998fa97d665f6910",
         "type": "function",
         "z": "9e36c572bb2b2e0e",
@@ -2194,49 +2252,10 @@
         "finalize": "",
         "libs": [],
         "x": 830,
-        "y": 360,
-        "wires": [
-            [
-                "5dea2ffd6ba78f15"
-            ]
-        ]
-    },
-    {
-        "id": "f0ac4de4ad9cb846",
-        "type": "function",
-        "z": "9e36c572bb2b2e0e",
-        "name": "waitlist_assign",
-        "func": "const waitlist = global.get(\"WAITLIST_TOPICS\") || new Array()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicTicket = waitlist.pop()\nconsole.log(\"topicTicket\", topicTicket)\nif (!topicTicket) return [null, msg]\nglobal.set(\"WAITLIST_TOPICS\", waitlist)\nmsg = Object.assign(msg, { topic: topicTicket });\nreturn [msg, null]",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 620,
-        "y": 480,
-        "wires": [
-            [
-                "6ba98e1b7807101c"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "1f3ab957cfee13dc",
-        "type": "inject",
-        "z": "9e36c572bb2b2e0e",
-        "name": "get topic",
-        "props": [],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 120,
         "y": 460,
         "wires": [
             [
-                "38248fd232e9cb7a"
+                "5dea2ffd6ba78f15"
             ]
         ]
     },
@@ -2253,22 +2272,8 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1060,
-        "y": 360,
-        "wires": []
-    },
-    {
-        "id": "38248fd232e9cb7a",
-        "type": "subflow:b3da594ab22fa515",
-        "z": "9e36c572bb2b2e0e",
-        "name": "",
-        "x": 390,
         "y": 460,
-        "wires": [
-            [],
-            [
-                "f0ac4de4ad9cb846"
-            ]
-        ]
+        "wires": []
     },
     {
         "id": "c806e24325115901",
@@ -2283,7 +2288,7 @@
             }
         ],
         "x": 120,
-        "y": 600,
+        "y": 640,
         "wires": [
             [
                 "42415945f47c060b"
@@ -2310,7 +2315,7 @@
         "to": "",
         "reg": false,
         "x": 400,
-        "y": 600,
+        "y": 640,
         "wires": [
             [
                 "6107c34b869084b6"
@@ -2323,7 +2328,7 @@
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 370,
-        "y": 760,
+        "y": 780,
         "wires": [
             [
                 "041f26bfc1e571d0"
@@ -2344,7 +2349,7 @@
             }
         ],
         "x": 960,
-        "y": 760,
+        "y": 780,
         "wires": [
             [
                 "d57fb4f666b653d6"
@@ -2364,96 +2369,12 @@
         "finalize": "",
         "libs": [],
         "x": 1140,
-        "y": 740,
+        "y": 780,
         "wires": [
             [
                 "7b3627b6af144639"
             ]
         ]
-    },
-    {
-        "id": "4e90783a35fceb8f",
-        "type": "inject",
-        "z": "9e36c572bb2b2e0e",
-        "name": "Sample Topic1",
-        "props": [
-            {
-                "p": "payload.topic",
-                "v": "{\t    \"topic\" : \"topic1\",\t    \"param\": {\"hoge\":\"new\"}\t}\t",
-                "vt": "jsonata"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 140,
-        "y": 540,
-        "wires": [
-            [
-                "e61870e6384df480"
-            ]
-        ]
-    },
-    {
-        "id": "e61870e6384df480",
-        "type": "subflow:375ee1d6cf6e3891",
-        "z": "9e36c572bb2b2e0e",
-        "name": "",
-        "env": [
-            {
-                "name": "actionType",
-                "value": "addtopic",
-                "type": "str"
-            },
-            {
-                "name": "topicPath",
-                "value": "payload/topic",
-                "type": "str"
-            }
-        ],
-        "x": 360,
-        "y": 540,
-        "wires": [
-            [
-                "938bc7c1342ffed9"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "938bc7c1342ffed9",
-        "type": "debug",
-        "z": "9e36c572bb2b2e0e",
-        "name": "debug 14",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 620,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "539024e67c720169",
-        "type": "debug",
-        "z": "9e36c572bb2b2e0e",
-        "name": "debug 15",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1060,
-        "y": 540,
-        "wires": []
     },
     {
         "id": "2372af7c30fab0e8",
@@ -2490,6 +2411,251 @@
         "statusType": "auto",
         "x": 660,
         "y": 960,
+        "wires": []
+    },
+    {
+        "id": "0875188206215aa8",
+        "type": "comment",
+        "z": "9e36c572bb2b2e0e",
+        "name": "jobctlより1m間隔で配信",
+        "info": "",
+        "x": 140,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "84186f06dd80bd09",
+        "type": "comment",
+        "z": "9e36c572bb2b2e0e",
+        "name": "procから新規topicの受信",
+        "info": "",
+        "x": 150,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "0b9f36fafe8b569f",
+        "type": "comment",
+        "z": "9e36c572bb2b2e0e",
+        "name": "procからtopicのstatus更新",
+        "info": "",
+        "x": 150,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "fe059a4a317c72a1",
+        "type": "comment",
+        "z": "9e36c572bb2b2e0e",
+        "name": "clusterへの参加通知",
+        "info": "",
+        "x": 130,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "e9bd7603374eed88",
+        "type": "comment",
+        "z": "9e36c572bb2b2e0e",
+        "name": "clusterへのPing",
+        "info": "",
+        "x": 120,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "899f97df45f4539f",
+        "type": "comment",
+        "z": "9e36c572bb2b2e0e",
+        "name": "cluster制御処理",
+        "info": "",
+        "x": 120,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "aa4d0d058a0439a4",
+        "type": "inject",
+        "z": "dbd8abb392121dc1",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "topic2",
+        "x": 130,
+        "y": 420,
+        "wires": [
+            [
+                "ab659cb4f6490749"
+            ]
+        ]
+    },
+    {
+        "id": "e7eb728a17f08d75",
+        "type": "inject",
+        "z": "dbd8abb392121dc1",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "topic1",
+        "x": 130,
+        "y": 380,
+        "wires": [
+            [
+                "ab659cb4f6490749"
+            ]
+        ]
+    },
+    {
+        "id": "5d916e713fcb54d6",
+        "type": "debug",
+        "z": "dbd8abb392121dc1",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "ab659cb4f6490749",
+        "type": "subflow:c826488602403262",
+        "z": "dbd8abb392121dc1",
+        "name": "",
+        "x": 600,
+        "y": 380,
+        "wires": [
+            [
+                "5d916e713fcb54d6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "f95507e7d1cc63f1",
+        "type": "inject",
+        "z": "dbd8abb392121dc1",
+        "name": "Sample Topic1",
+        "props": [
+            {
+                "p": "payload.topic",
+                "v": "{\t    \"topic\" : \"topic1\",\t    \"param\": {\"hoge\":\"new\"}\t}\t",
+                "vt": "jsonata"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "ef4c138a0cd71fa3"
+            ]
+        ]
+    },
+    {
+        "id": "c803403e1bccf5d2",
+        "type": "debug",
+        "z": "dbd8abb392121dc1",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "84d6fcc45f5b83e4",
+        "type": "inject",
+        "z": "dbd8abb392121dc1",
+        "name": "Sample Topic2",
+        "props": [
+            {
+                "p": "payload.topic",
+                "v": "{\t    \"topic\" : \"topic2\",\t    \"param\": {\"hoge\":\"new\"}\t}\t",
+                "vt": "jsonata"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 160,
+        "y": 260,
+        "wires": [
+            [
+                "ef4c138a0cd71fa3"
+            ]
+        ]
+    },
+    {
+        "id": "ef4c138a0cd71fa3",
+        "type": "subflow:d6f01b04a12d7282",
+        "z": "dbd8abb392121dc1",
+        "name": "",
+        "env": [
+            {
+                "name": "topicPath",
+                "value": "payload/topic",
+                "type": "str"
+            }
+        ],
+        "x": 640,
+        "y": 260,
+        "wires": [
+            [
+                "c803403e1bccf5d2"
+            ]
+        ]
+    },
+    {
+        "id": "b258f9f392268ee6",
+        "type": "comment",
+        "z": "dbd8abb392121dc1",
+        "name": "新規topicの登録",
+        "info": "",
+        "x": 140,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ae07b455dbb0c2bd",
+        "type": "comment",
+        "z": "dbd8abb392121dc1",
+        "name": "topicのassignテスト",
+        "info": "",
+        "x": 150,
+        "y": 340,
         "wires": []
     }
 ]
