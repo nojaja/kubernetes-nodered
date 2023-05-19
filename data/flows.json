@@ -1645,7 +1645,7 @@
                 "type": "str"
             }
         ],
-        "x": 360,
+        "x": 620,
         "y": 160,
         "wires": [
             [
@@ -1666,7 +1666,7 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 620,
+        "x": 820,
         "y": 160,
         "wires": []
     },
@@ -1732,6 +1732,55 @@
         "wires": [
             [
                 "82c3b0b299dbe8a3"
+            ]
+        ]
+    },
+    {
+        "id": "771e91fbd62fd669",
+        "type": "function",
+        "z": "f01882c08732b397",
+        "name": "splet array",
+        "func": "\nconst list = msg.payload.list\nconst topic = msg.payload.topic\nconst date = new Date()\nconst jobsession = date.getFullYear() + (\"0\" + (date.getMonth() + 1)).slice(-2) + (\"0\" + (date.getDate() + 1)).slice(-2)\n\n//payload.topic\n//{\t    \"topic\" : \"topic1\",\t    \"param\": {\"hoge\":\"new\"}\t}\t\nfor (const key in list) {\n    node.send(\n        {\n            payload: {\n                topic: topic,\n                param:{\n                    target: list[key],\n                    jobsession: jobsession\n                }\n            }\n        }\n    );\n}\n\n//node.done();\nreturn;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 200,
+        "wires": [
+            [
+                "e61870e6384df480"
+            ]
+        ]
+    },
+    {
+        "id": "486842778ef1fa28",
+        "type": "inject",
+        "z": "f01882c08732b397",
+        "name": "git Topic",
+        "props": [
+            {
+                "p": "payload.topic",
+                "v": "git",
+                "vt": "str"
+            },
+            {
+                "p": "payload.list",
+                "v": "[\"A0000_0000\",\"B0000_0000\"]",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "771e91fbd62fd669"
             ]
         ]
     },
@@ -2012,7 +2061,7 @@
         "z": "9e36c572bb2b2e0e",
         "name": "未処理topicの配信",
         "props": [],
-        "repeat": "60",
+        "repeat": "10",
         "crontab": "",
         "once": true,
         "onceDelay": "20",
@@ -2622,27 +2671,9 @@
         "y": 1040,
         "wires": [
             [
-                "b0c2ea79747bd703",
                 "e8dfbc55efe2889f"
             ]
         ]
-    },
-    {
-        "id": "b0c2ea79747bd703",
-        "type": "debug",
-        "z": "9e36c572bb2b2e0e",
-        "name": "debug 23",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 660,
-        "y": 1120,
-        "wires": []
     },
     {
         "id": "32f629c82e7afe15",
@@ -2675,48 +2706,12 @@
         "y": 1040,
         "wires": [
             [
-                "c329f731b22b9173",
-                "bdf81798cfb78125"
+                "c329f731b22b9173"
             ],
             [
-                "36e36c6b56939fed",
-                "87e5bc424e97a5ed"
+                "36e36c6b56939fed"
             ]
         ]
-    },
-    {
-        "id": "bdf81798cfb78125",
-        "type": "debug",
-        "z": "9e36c572bb2b2e0e",
-        "name": "debug 27",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 840,
-        "y": 1000,
-        "wires": []
-    },
-    {
-        "id": "87e5bc424e97a5ed",
-        "type": "debug",
-        "z": "9e36c572bb2b2e0e",
-        "name": "debug 28",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 840,
-        "y": 1120,
-        "wires": []
     },
     {
         "id": "aa4d0d058a0439a4",
