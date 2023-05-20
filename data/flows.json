@@ -27,7 +27,7 @@
         "id": "cd185f8f533e0f2d",
         "type": "subflow",
         "name": "logger",
-        "info": "",
+        "info": "サイドバーの「デバッグ」タブに、選択したメッセージプロパティの値を表示します。\r\n設定により、ランタイムログへの出力も可能です。\r\nデフォルトの表示対象は`msg.payload`ですが、設定により、指定したプロパティ、メッセージ全体、もしくは、JSONata式の評価結果を出力できます。\r\n\r\n## 詳細\r\n「デバッグ」サイドバーは受け取ったメッセージの階層構造を表示する機能を備えます。この機能によりメッセージの構造を容易に理解できます。\r\n\r\nJavaScriptオブジェクトと配列は必要に応じて折り畳んだり展開したりできます。バッファオブジェクトを生データとして表示したり、表現可能な場合に文字列として表示したりすることも可能です。\r\n\r\nメッセージを受信した時刻、送信ノード、メッセージの型に関する情報を「デバッグ」サイドバーに表示されたメッセージに付随して表示します。送信元ノードのIDを選択すると、ワークスペース内の対応ノードを確認できます。\r\n\r\n出力の有効/無効はノード上のボタンで切り替えられます。フロー上で未使用のdebugノードは、無効化するか削除することを推奨します。\r\n\r\n全てのメッセージをランタイムログに送付、もしくは、(32文字の)短いデータをdebugノードの下のステータステキストに表示することも可能です。",
         "category": "",
         "in": [
             {
@@ -53,18 +53,13 @@
                 "value": "system"
             },
             {
-                "name": "logUID_Key",
-                "type": "str",
-                "value": "_msgid"
-            },
-            {
                 "name": "logPath",
                 "type": "str",
                 "value": "/workspace/logs/"
             }
         ],
         "meta": {
-            "module": "logger",
+            "module": "node-red-logger",
             "type": "logger",
             "version": "0.0.1",
             "license": "MIT"
@@ -106,7 +101,12 @@
                 }
             }
         ],
-        "meta": {},
+        "meta": {
+            "module": "node-red-endpoint",
+            "type": "endpoint",
+            "version": "0.0.1",
+            "license": "MIT"
+        },
         "color": "#A6BBCF",
         "icon": "node-red/arrow-in.svg"
     },
@@ -196,14 +196,17 @@
                 "value": "2880"
             }
         ],
-        "meta": {},
+        "meta": {
+            "module": "cluster-endpoint",
+            "type": "cluster-endpoint"
+        },
         "color": "#A6BBCF",
         "icon": "node-red/bridge.svg"
     },
     {
         "id": "610d7761aec803a7",
         "type": "subflow",
-        "name": "cluster_ctl",
+        "name": "cluster-ctl",
         "info": "",
         "category": "",
         "in": [
@@ -230,14 +233,17 @@
                 "value": "true"
             }
         ],
-        "meta": {},
+        "meta": {
+            "module": "cluster-ctl",
+            "type": "cluster-ctl"
+        },
         "color": "#A6BBCF",
         "icon": "node-red/bridge-dash.svg"
     },
     {
         "id": "b3da594ab22fa515",
         "type": "subflow",
-        "name": "switch role",
+        "name": "switch-role",
         "info": "",
         "category": "",
         "in": [
@@ -274,7 +280,10 @@
             }
         ],
         "env": [],
-        "meta": {},
+        "meta": {
+            "module": "switch-role",
+            "type": "switch-role"
+        },
         "color": "#E2D96E",
         "outputLabels": [
             "jobctl",
@@ -340,7 +349,7 @@
     {
         "id": "c826488602403262",
         "type": "subflow",
-        "name": "topics_assign",
+        "name": "topics-assign",
         "info": "",
         "category": "",
         "in": [
@@ -388,14 +397,17 @@
                 "value": "status"
             }
         ],
-        "meta": {},
+        "meta": {
+            "module": "topics-assign",
+            "type": "topics-assign"
+        },
         "color": "#DEB887",
         "icon": "node-red/db.svg"
     },
     {
         "id": "b8cfb4b94405d94d",
         "type": "subflow",
-        "name": "fillter topic",
+        "name": "fillter-topic",
         "info": "",
         "category": "",
         "in": [
@@ -435,17 +447,20 @@
             {
                 "name": "topicPath",
                 "type": "str",
-                "value": "payload/PAYLOAD/topic"
+                "value": "payload.PAYLOAD.topic"
             }
         ],
-        "meta": {},
+        "meta": {
+            "module": "fillter-topic",
+            "type": "fillter-topic"
+        },
         "color": "#E2D96E",
         "icon": "node-red/rbe.png"
     },
     {
         "id": "d6f01b04a12d7282",
         "type": "subflow",
-        "name": "topic_add",
+        "name": "topic-add",
         "info": "",
         "category": "",
         "in": [
@@ -478,14 +493,17 @@
                 "value": "payload.topic"
             }
         ],
-        "meta": {},
+        "meta": {
+            "module": "topic-add",
+            "type": "topic-add"
+        },
         "color": "#DEB887",
         "icon": "node-red/db.svg"
     },
     {
         "id": "0eb6c089a1f171e9",
         "type": "subflow",
-        "name": "topics_list",
+        "name": "topics-list",
         "info": "",
         "category": "",
         "in": [
@@ -518,14 +536,17 @@
                 "value": "status"
             }
         ],
-        "meta": {},
+        "meta": {
+            "module": "topics-list",
+            "type": "topics-list"
+        },
         "color": "#DEB887",
         "icon": "node-red/db.svg"
     },
     {
         "id": "f5ba2b0f4e9255e0",
         "type": "subflow",
-        "name": "topics_update",
+        "name": "topics-update",
         "info": "",
         "category": "",
         "in": [
@@ -578,7 +599,10 @@
                 "value": ""
             }
         ],
-        "meta": {},
+        "meta": {
+            "module": "topics-update",
+            "type": "topics-update"
+        },
         "color": "#DEB887",
         "icon": "node-red/db.svg"
     },
@@ -587,7 +611,7 @@
         "type": "function",
         "z": "cd185f8f533e0f2d",
         "name": "logger_proc",
-        "func": "const logLevel = env.get(\"logLevel\")\nconst logName = env.get(\"logName\")\nconst uid_key = env.get(\"logUID_Key\")\nconst logPath = env.get(\"logPath\")\nconst uid = msg[uid_key] || msg._msgid\nconst filename = `${logName}${logLevel}.log`\nmsg.logFilePath = path.join(logPath, uid, filename)\nreturn msg;",
+        "func": "//const uid_key = env.get(\"logUID_Key\")\n//const uid = msg[uid_key] || msg._msgid\nconst date = new Date()\nconst uid = date.getFullYear() + (\"0\" + (date.getMonth() + 1)).slice(-2) + (\"0\" + (date.getDate() + 1)).slice(-2)\n\nconst logLevel = env.get(\"logLevel\")\nconst logName = env.get(\"logName\")\nconst logPath = env.get(\"logPath\")\nconst filename = `${logName}${logLevel}.log`\nmsg.logFilePath = path.join(logPath, uid, filename)\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1068,21 +1092,12 @@
         "type": "function",
         "z": "610d7761aec803a7",
         "name": "getLocalAddress",
-        "func": "\nfunction getLocalAddress() {\n    const ifacesObj = {}\n    ifacesObj.ipv4 = []\n    ifacesObj.ipv6 = []\n    const interfaces = os.networkInterfaces()\n    for (let ifname in interfaces) {\n        interfaces[ifname].forEach(function (iface) {\n            if (!iface.internal) {\n                const broadcastAddress = ip.or(iface.address, ip.not(iface.netmask))\n                switch (iface.family) {\n                    case \"IPv4\":\n                        ifacesObj.ipv4.push({ name: ifname, address: iface.address, broadcastAddress: broadcastAddress })\n                        break\n                    case \"IPv6\":\n                        ifacesObj.ipv6.push({ name: ifname, address: iface.address, broadcastAddress: broadcastAddress })\n                        break\n                }\n            }\n        });\n    }\n    return ifacesObj;\n};\n//ipv4: [ { name: 'eth0', address:\nmsg.LocalAddress = getLocalAddress().ipv4[0]\n\nreturn msg;",
+        "func": "\n\n//ipv4: [ { name: 'eth0', address:\nmsg.LocalAddress = RED.util.getLocalAddress().ipv4[0]\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "libs": [
-            {
-                "var": "os",
-                "module": "os"
-            },
-            {
-                "var": "ip",
-                "module": "ip"
-            }
-        ],
+        "libs": [],
         "x": 190,
         "y": 40,
         "wires": [
@@ -1119,7 +1134,7 @@
         "type": "function",
         "z": "375ee1d6cf6e3891",
         "name": "generate_url",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\n\nconst JOBCTL_HOST = global.get(\"JOBCTL_HOST\")\nconst JOBCTL_SERVICE_IP = JOBCTL_HOST.IP\nconst JOBCTL_SERVICE_HOST_HTTP_PORT = JOBCTL_HOST.HTTP_PORT\nconst actionType = env.get(\"actionType\")\n\nconst topicPath = env.get(\"topicPath\")\nconst topic = encodeURIComponent(JSON.stringify(getPropByPath(msg, topicPath)))\n\nmsg.joburl = `http://${JOBCTL_SERVICE_IP}:${JOBCTL_SERVICE_HOST_HTTP_PORT}/${actionType}/${topic}`\nmsg.topic = topic\nreturn msg",
+        "func": "\nconst JOBCTL_HOST = global.get(\"JOBCTL_HOST\")\nconst JOBCTL_SERVICE_IP = JOBCTL_HOST.IP\nconst JOBCTL_SERVICE_HOST_HTTP_PORT = JOBCTL_HOST.HTTP_PORT\nconst actionType = env.get(\"actionType\")\n\nconst topicPath = env.get(\"topicPath\")\nconst topic = encodeURIComponent(JSON.stringify(RED.util.getPropByPath(msg, topicPath)))\n\nmsg.joburl = `http://${JOBCTL_SERVICE_IP}:${JOBCTL_SERVICE_HOST_HTTP_PORT}/${actionType}/${topic}`\nmsg.topic = topic\nreturn msg",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1187,7 +1202,7 @@
         "type": "function",
         "z": "c826488602403262",
         "name": "topics_assign",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = getPropByPath(msg, statusPath) || \"new\"\n\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Map()\nconst topic_proc = topicStatus.get(nextStatus) || new Map()\n\nfunction pop(map) {\n    try {\n        const key = map.keys().next().value\n        const result = map.get(key)\n        return (map.delete(key)) ? result : null\n    } catch (error) {\n        return null\n    }\n}\nconst topicTicket = pop(topic_new)\nif (!topicTicket) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.set(topicTicket.uuid, topicTicket)\n\ntopicStatus.set(selectStatus, topic_new)\ntopicStatus.set(nextStatus, topic_proc)\ntopics.set(selectTopic, topicStatus)\nglobal.set(\"TOPICS\", topics)\nmsg = Object.assign(msg, { payload: { topic: topicTicket.topic, topicTicket: topicTicket } });\n\nreturn [msg, null]",
+        "func": "\nconst topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = RED.util.getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = RED.util.getPropByPath(msg, statusPath) || \"new\"\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Map()\nconst topic_proc = topicStatus.get(nextStatus) || new Map()\n\nconst topicTicket = RED.util.mappop(topic_new)\nif (!topicTicket) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.set(topicTicket.uuid, topicTicket)\n\ntopicStatus.set(selectStatus, topic_new)\ntopicStatus.set(nextStatus, topic_proc)\ntopics.set(selectTopic, topicStatus)\nglobal.set(\"TOPICS\", topics)\nmsg = Object.assign(msg, { payload: { topic: topicTicket.topic, topicTicket: topicTicket } });\n\nreturn [msg, null]",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -1205,7 +1220,7 @@
         "type": "function",
         "z": "b8cfb4b94405d94d",
         "name": "fillter topic",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst TARGET_TOPICS = (env.get(\"TOPICS\") || \"topic1,topic2\").split(',')\nconst topicPath = env.get(\"topicPath\") //ex. msg.payload.PAYLOAD.topic\nconst topic = getPropByPath(msg, topicPath)\n\n\nmsg.topic = topic\nif (TARGET_TOPICS.indexOf(topic) > -1) return [msg, null]\nreturn [null, msg]",
+        "func": "\nconst TARGET_TOPICS = (env.get(\"TOPICS\") || \"topic1,topic2\").split(',')\nconst topicPath = env.get(\"topicPath\") //ex. msg.payload.PAYLOAD.topic\nconst topic = RED.util.getPropByPath(msg, topicPath)\n\nmsg.topic = topic\nif (TARGET_TOPICS.indexOf(topic) > -1) return [msg, null]\nreturn [null, msg]",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -1223,7 +1238,7 @@
         "type": "function",
         "z": "d6f01b04a12d7282",
         "name": "topic_add",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.payload.topic \nconst topicTicket = getPropByPath(msg, topicPath)//{topic: \"\",param: { }}\ntopicTicket.uuid = crypto.randomUUID()\n\n\nif (!topicTicket) return msg\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topicStatus = topics.get(topicName) || new Map()\nconst topic = topicStatus.get(\"new\") || new Map()\ntopic.set(topicTicket.uuid,topicTicket)\ntopicStatus.set(\"new\", topic)\ntopics.set(topicName, topicStatus)\nglobal.set(\"TOPICS\", topics)\n\nreturn msg;",
+        "func": "\nconst topicPath = env.get(\"topicPath\") //ex.msg.payload.topic \nconst topicTicket = RED.util.getPropByPath(msg, topicPath)//{topic: \"\",param: { }}\ntopicTicket.uuid = crypto.randomUUID()\n\nif (!topicTicket) return msg\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topicStatus = topics.get(topicName) || new Map()\nconst topic = topicStatus.get(\"new\") || new Map()\ntopic.set(topicTicket.uuid,topicTicket)\ntopicStatus.set(\"new\", topic)\ntopics.set(topicName, topicStatus)\nglobal.set(\"TOPICS\", topics)\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1245,7 +1260,7 @@
         "type": "function",
         "z": "0eb6c089a1f171e9",
         "name": "topics_list",
-        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\n\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = getPropByPath(msg, statusPath) || \"new\"\n\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topics_list = new Array()\n\nfor (const [topicName, topicStatus] of topics) {\n    const topic_new = topicStatus.get(selectStatus) || new Map()\n    if (topic_new.size > 0) topics_list.push(topicName)\n}\n\nmsg = Object.assign(msg, { payload: { list: topics_list } });\nreturn msg;",
+        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = RED.util.getPropByPath(msg, statusPath) || \"new\"\n\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topics_list = new Array()\n\nfor (const [topicName, topicStatus] of topics) {\n    const topic_new = topicStatus.get(selectStatus) || new Map()\n    if (topic_new.size > 0) topics_list.push(topicName)\n}\n\nmsg = Object.assign(msg, { payload: { list: topics_list } });\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1262,7 +1277,7 @@
         "type": "function",
         "z": "f5ba2b0f4e9255e0",
         "name": "topics_update",
-        "func": "\nfunction getPropByPath(obj, path) {\n    const pathArr = path.split('/');\n    let current = obj;\n    for (const prop of pathArr) {\n        if (current[prop] === undefined) {\n            return undefined;\n        }\n        current = current[prop];\n    }\n    return current;\n}\n\nconst topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = getPropByPath(msg, statusPath) || \"new\"\n\nconst uuidPath = env.get(\"uuidPath\") //ex.msg.status\nconst uuid = getPropByPath(msg, uuidPath) || \"uuid\"\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Map()\nconst topic_proc = topicStatus.get(nextStatus) || new Map()\n\nfunction pop(map) {\n    try {\n        const key = map.keys().next().value\n        const result = map.get(key)\n        return (map.delete(key)) ? result : null\n    } catch (error) {\n        return null\n    }\n}\n\nconst topicTicket = topic_new.get(uuid)\nif (!topicTicket) return [null, msg]\nif (!topic_new.delete(uuid)) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.set(topicTicket.uuid, topicTicket)\n\ntopicStatus.set(selectStatus, topic_new) || new Array()\ntopicStatus.set(nextStatus, topic_proc) || new Array()\ntopics.set(selectTopic, topicStatus) || new Map()\nglobal.set(\"TOPICS\", topics) || new Map()\n\nmsg = Object.assign(msg, { payload: { topic: topicTicket.topic, topicTicket: JSON.stringify(topicTicket) } });\n\nreturn [msg, null]",
+        "func": "const topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = RED.util.getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = RED.util.getPropByPath(msg, statusPath) || \"new\"\n\nconst uuidPath = env.get(\"uuidPath\") //ex.msg.status\nconst uuid = RED.util.getPropByPath(msg, uuidPath) || \"uuid\"\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Map()\nconst topic_proc = topicStatus.get(nextStatus) || new Map()\n\nconst topicTicket = topic_new.get(uuid)\nif (!topicTicket) return [null, msg]\nif (!topic_new.delete(uuid)) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.set(topicTicket.uuid, topicTicket)\n\ntopicStatus.set(selectStatus, topic_new) || new Array()\ntopicStatus.set(nextStatus, topic_proc) || new Array()\ntopics.set(selectTopic, topicStatus) || new Map()\nglobal.set(\"TOPICS\", topics) || new Map()\n\nmsg = Object.assign(msg, { payload: { topic: topicTicket.topic, topicTicket: JSON.stringify(topicTicket) } });\n\nreturn [msg, null]",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -1372,7 +1387,7 @@
         "type": "function",
         "z": "f01882c08732b397",
         "name": "uuid",
-        "func": "if(!msg.hash){\n    const date = new Date()\n    msg.hash = date.getFullYear() + (\"0\" + (date.getMonth() + 1)).slice(-2) + (\"0\" + (date.getDate() + 1)).slice(-2)\n}\nreturn msg;",
+        "func": "if(!msg.hash){\n    const date = new Date()\n    msg.hash = date.getFullYear() + (\"0\" + (date.getMonth() + 1)).slice(-2) + (\"0\" + (date.getDate() + 1)).slice(-2)\n}\n\nconsole.log(RED.util.getLocalAddress())\nmsg.test = RED.util.getLocalAddress()\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1424,7 +1439,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
         "x": 580,
