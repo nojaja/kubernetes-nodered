@@ -2,6 +2,10 @@
 
 ##
 ```
+docker build -t sshd:latest .
+```
+##
+```
 kubectl apply -f ./nodered_persistent_volume.yaml
 kubectl apply -f ./nodered_pvc.yaml
 ```
@@ -16,6 +20,7 @@ kubectl describe pod
 ## 更新
 ```
 kubectl apply -f ./nodered_cluster.yaml
+kubectl apply -f ./sshd.yaml
 ```
 
 ## 構成情報取得

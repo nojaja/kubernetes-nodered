@@ -1,0 +1,8 @@
+version: '3'
+services:
+  ssh_passwd:
+    image: sshd
+    container_name: ssh_passwd
+    ports:
+      - "2222:22"
+    tty: true
