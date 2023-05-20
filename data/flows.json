@@ -1756,7 +1756,7 @@
         "type": "function",
         "z": "f01882c08732b397",
         "name": "splet array",
-        "func": "\nconst list = msg.payload.list\nconst topic = msg.payload.topic\nconst date = new Date()\nconst jobsession = date.getFullYear() + (\"0\" + (date.getMonth() + 1)).slice(-2) + (\"0\" + (date.getDate() + 1)).slice(-2)\n\n//payload.topic\n//{\t    \"topic\" : \"topic1\",\t    \"param\": {\"hoge\":\"new\"}\t}\t\nfor (const key in list) {\n    node.send(\n        {\n            payload: {\n                topic: topic,\n                param:{\n                    target: list[key],\n                    jobsession: jobsession\n                }\n            }\n        }\n    );\n}\n\n//node.done();\nreturn;",
+        "func": "\nconst list = msg.payload.list\nconst topic = msg.payload.topic\nconst date = new Date()\nconst jobsession = date.getFullYear() + (\"0\" + (date.getMonth() + 1)).slice(-2) + (\"0\" + (date.getDate() + 1)).slice(-2)\n\n//payload.topic\n//{\t    \"topic\" : \"topic1\",\t    \"param\": {\"hoge\":\"new\"}\t}\t\nfor (const key in list) {\n    node.send(\n        {\n            payload: {\n                topic: {\n                    topic: topic,\n                    param: {\n                        target: list[key],\n                        jobsession: jobsession\n                    }\n                }\n            }\n        }\n    );\n}\n\n//node.done();\nreturn;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
