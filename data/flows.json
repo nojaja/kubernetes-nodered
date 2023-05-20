@@ -1657,7 +1657,7 @@
             },
             {
                 "name": "topicPath",
-                "value": "payload/topic",
+                "value": "payload.topic",
                 "type": "str"
             }
         ],
@@ -2280,13 +2280,6 @@
         "type": "subflow:d6f01b04a12d7282",
         "z": "9e36c572bb2b2e0e",
         "name": "",
-        "env": [
-            {
-                "name": "topicPath",
-                "value": "payload/topic",
-                "type": "str"
-            }
-        ],
         "x": 620,
         "y": 640,
         "wires": [
@@ -2450,7 +2443,7 @@
         "env": [
             {
                 "name": "topicPath",
-                "value": "payload/topic",
+                "value": "payload.topic",
                 "type": "str"
             }
         ],
@@ -2709,12 +2702,12 @@
         "env": [
             {
                 "name": "topicPath",
-                "value": "topic/topic",
+                "value": "topic.topic",
                 "type": "str"
             },
             {
                 "name": "uuidPath",
-                "value": "topic/uuid",
+                "value": "topic.uuid",
                 "type": "str"
             }
         ],
@@ -2879,13 +2872,6 @@
         "type": "subflow:d6f01b04a12d7282",
         "z": "dbd8abb392121dc1",
         "name": "",
-        "env": [
-            {
-                "name": "topicPath",
-                "value": "payload/topic",
-                "type": "str"
-            }
-        ],
         "x": 640,
         "y": 260,
         "wires": [
