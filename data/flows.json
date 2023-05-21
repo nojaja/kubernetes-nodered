@@ -24,1284 +24,10 @@
         "env": []
     },
     {
-        "id": "cd185f8f533e0f2d",
-        "type": "subflow",
-        "name": "logger",
-        "info": "サイドバーの「デバッグ」タブに、選択したメッセージプロパティの値を表示します。\r\n設定により、ランタイムログへの出力も可能です。\r\nデフォルトの表示対象は`msg.payload`ですが、設定により、指定したプロパティ、メッセージ全体、もしくは、JSONata式の評価結果を出力できます。\r\n\r\n## 詳細\r\n「デバッグ」サイドバーは受け取ったメッセージの階層構造を表示する機能を備えます。この機能によりメッセージの構造を容易に理解できます。\r\n\r\nJavaScriptオブジェクトと配列は必要に応じて折り畳んだり展開したりできます。バッファオブジェクトを生データとして表示したり、表現可能な場合に文字列として表示したりすることも可能です。\r\n\r\nメッセージを受信した時刻、送信ノード、メッセージの型に関する情報を「デバッグ」サイドバーに表示されたメッセージに付随して表示します。送信元ノードのIDを選択すると、ワークスペース内の対応ノードを確認できます。\r\n\r\n出力の有効/無効はノード上のボタンで切り替えられます。フロー上で未使用のdebugノードは、無効化するか削除することを推奨します。\r\n\r\n全てのメッセージをランタイムログに送付、もしくは、(32文字の)短いデータをdebugノードの下のステータステキストに表示することも可能です。",
-        "category": "",
-        "in": [
-            {
-                "x": 50,
-                "y": 30,
-                "wires": [
-                    {
-                        "id": "8b05743651ac39ce"
-                    }
-                ]
-            }
-        ],
-        "out": [],
-        "env": [
-            {
-                "name": "logLevel",
-                "type": "str",
-                "value": "info"
-            },
-            {
-                "name": "logName",
-                "type": "str",
-                "value": "system"
-            },
-            {
-                "name": "logPath",
-                "type": "str",
-                "value": "/workspace/logs/"
-            }
-        ],
-        "meta": {
-            "module": "node-red-logger",
-            "type": "logger",
-            "version": "0.0.1",
-            "license": "MIT"
-        },
-        "color": "#87A980",
-        "icon": "node-red/file-out.svg"
-    },
-    {
-        "id": "27227cef106a74f0",
-        "type": "subflow",
-        "name": "endpoint",
-        "info": "",
-        "category": "",
-        "in": [],
-        "out": [
-            {
-                "x": 660,
-                "y": 120,
-                "wires": [
-                    {
-                        "id": "2be49eb745fa791d",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "actionType",
-                "type": "str",
-                "value": "exec"
-            },
-            {
-                "name": "endpoint",
-                "type": "env",
-                "value": "/${actionType}/:topic",
-                "ui": {
-                    "type": "hide"
-                }
-            }
-        ],
-        "meta": {
-            "module": "node-red-endpoint",
-            "type": "endpoint",
-            "version": "0.0.1",
-            "license": "MIT"
-        },
-        "color": "#A6BBCF",
-        "icon": "node-red/arrow-in.svg"
-    },
-    {
-        "id": "45018afdb676ae24",
-        "type": "subflow",
-        "name": "rpc_async",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 60,
-                "y": 100,
-                "wires": [
-                    {
-                        "id": "a9fa9c32d27f7f10"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 660,
-                "y": 320,
-                "wires": [
-                    {
-                        "id": "194d7930b95721c2",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "actionType",
-                "type": "str",
-                "value": "exec"
-            },
-            {
-                "name": "endpoint",
-                "type": "env",
-                "value": "/callback/${jobgroup}/jobsession/"
-            },
-            {
-                "name": "jobsession_key",
-                "type": "str",
-                "value": "jobsession"
-            },
-            {
-                "name": "endpointport",
-                "type": "str",
-                "value": "2880"
-            },
-            {
-                "name": "jobgroup",
-                "type": "str",
-                "value": "test"
-            }
-        ],
-        "meta": {},
-        "color": "#A6BBCF",
-        "icon": "node-red/arrow-in.svg"
-    },
-    {
-        "id": "0cd70b49340abfe2",
-        "type": "subflow",
-        "name": "cluster_endpoint",
-        "info": "",
-        "category": "",
-        "in": [],
-        "out": [
-            {
-                "x": 540,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "20dcaeb9b3ab0ad1",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "endpoint_port",
-                "type": "str",
-                "value": "2880"
-            }
-        ],
-        "meta": {
-            "module": "cluster-endpoint",
-            "type": "cluster-endpoint"
-        },
-        "color": "#A6BBCF",
-        "icon": "node-red/bridge.svg"
-    },
-    {
-        "id": "610d7761aec803a7",
-        "type": "subflow",
-        "name": "cluster-ctl",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 50,
-                "y": 30,
-                "wires": [
-                    {
-                        "id": "055a6b1f611eebc9"
-                    }
-                ]
-            }
-        ],
-        "out": [],
-        "env": [
-            {
-                "name": "COMMAND",
-                "type": "str",
-                "value": ""
-            },
-            {
-                "name": "BROADCAST",
-                "type": "bool",
-                "value": "true"
-            }
-        ],
-        "meta": {
-            "module": "cluster-ctl",
-            "type": "cluster-ctl"
-        },
-        "color": "#A6BBCF",
-        "icon": "node-red/bridge-dash.svg"
-    },
-    {
-        "id": "b3da594ab22fa515",
-        "type": "subflow",
-        "name": "switch-role",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 40,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "2ca89985ea3eb86d"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 370,
-                "y": 40,
-                "wires": [
-                    {
-                        "id": "2ca89985ea3eb86d",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 380,
-                "y": 120,
-                "wires": [
-                    {
-                        "id": "2ca89985ea3eb86d",
-                        "port": 1
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {
-            "module": "switch-role",
-            "type": "switch-role"
-        },
-        "color": "#E2D96E",
-        "outputLabels": [
-            "jobctl",
-            "processor"
-        ],
-        "icon": "node-red/switch.svg"
-    },
-    {
-        "id": "375ee1d6cf6e3891",
-        "type": "subflow",
-        "name": "rpc_sync",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 40,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "a72d2803344a446d"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 820,
-                "y": 40,
-                "wires": [
-                    {
-                        "id": "ab5c9b3893934684",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 820,
-                "y": 100,
-                "wires": [
-                    {
-                        "id": "ab5c9b3893934684",
-                        "port": 1
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "actionType",
-                "type": "str",
-                "value": "exec"
-            },
-            {
-                "name": "topicPath",
-                "type": "str",
-                "value": "topic"
-            }
-        ],
-        "meta": {},
-        "color": "#A6BBCF",
-        "icon": "node-red/arrow-in.svg"
-    },
-    {
-        "id": "c826488602403262",
-        "type": "subflow",
-        "name": "topics-assign",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 40,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "18819cbac00ebaf8"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 380,
-                "y": 40,
-                "wires": [
-                    {
-                        "id": "18819cbac00ebaf8",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 380,
-                "y": 100,
-                "wires": [
-                    {
-                        "id": "18819cbac00ebaf8",
-                        "port": 1
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "topicPath",
-                "type": "str",
-                "value": "topic"
-            },
-            {
-                "name": "statusPath",
-                "type": "str",
-                "value": "status"
-            }
-        ],
-        "meta": {
-            "module": "topics-assign",
-            "type": "topics-assign"
-        },
-        "color": "#DEB887",
-        "icon": "node-red/db.svg"
-    },
-    {
-        "id": "b8cfb4b94405d94d",
-        "type": "subflow",
-        "name": "fillter-topic",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 60,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "9824a4787a5aa8d6"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 340,
-                "y": 60,
-                "wires": [
-                    {
-                        "id": "9824a4787a5aa8d6",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 340,
-                "y": 120,
-                "wires": [
-                    {
-                        "id": "9824a4787a5aa8d6",
-                        "port": 1
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "topicPath",
-                "type": "str",
-                "value": "payload.PAYLOAD.topic"
-            }
-        ],
-        "meta": {
-            "module": "fillter-topic",
-            "type": "fillter-topic"
-        },
-        "color": "#E2D96E",
-        "icon": "node-red/rbe.png"
-    },
-    {
-        "id": "d6f01b04a12d7282",
-        "type": "subflow",
-        "name": "topic-add",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 60,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "a27285317db43ec7"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 340,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "a27285317db43ec7",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "topicPath",
-                "type": "str",
-                "value": "payload.topic"
-            }
-        ],
-        "meta": {
-            "module": "topic-add",
-            "type": "topic-add"
-        },
-        "color": "#DEB887",
-        "icon": "node-red/db.svg"
-    },
-    {
-        "id": "0eb6c089a1f171e9",
-        "type": "subflow",
-        "name": "topics-list",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 60,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "126cbf276ed23332"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 340,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "126cbf276ed23332",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "statusPath",
-                "type": "str",
-                "value": "status"
-            }
-        ],
-        "meta": {
-            "module": "topics-list",
-            "type": "topics-list"
-        },
-        "color": "#DEB887",
-        "icon": "node-red/db.svg"
-    },
-    {
-        "id": "f5ba2b0f4e9255e0",
-        "type": "subflow",
-        "name": "topics-update",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 40,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "df88c0ce3abe7f11"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 380,
-                "y": 40,
-                "wires": [
-                    {
-                        "id": "df88c0ce3abe7f11",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 380,
-                "y": 100,
-                "wires": [
-                    {
-                        "id": "df88c0ce3abe7f11",
-                        "port": 1
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "topicPath",
-                "type": "str",
-                "value": "topic"
-            },
-            {
-                "name": "statusPath",
-                "type": "str",
-                "value": "status"
-            },
-            {
-                "name": "uuidPath",
-                "type": "str",
-                "value": ""
-            }
-        ],
-        "meta": {
-            "module": "topics-update",
-            "type": "topics-update"
-        },
-        "color": "#DEB887",
-        "icon": "node-red/db.svg"
-    },
-    {
-        "id": "8b05743651ac39ce",
-        "type": "function",
-        "z": "cd185f8f533e0f2d",
-        "name": "logger_proc",
-        "func": "//const uid_key = env.get(\"logUID_Key\")\n//const uid = msg[uid_key] || msg._msgid\nconst date = new Date()\nconst uid = date.getFullYear() + (\"0\" + (date.getMonth() + 1)).slice(-2) + (\"0\" + (date.getDate() + 1)).slice(-2)\n\nconst logLevel = env.get(\"logLevel\")\nconst logName = env.get(\"logName\")\nconst logPath = env.get(\"logPath\")\nconst filename = `${logName}${logLevel}.log`\nmsg.logFilePath = path.join(logPath, uid, filename)\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [
-            {
-                "var": "path",
-                "module": "path"
-            }
-        ],
-        "x": 230,
-        "y": 40,
-        "wires": [
-            [
-                "5dfac259ecc0927f",
-                "7e0a41b86051ec87"
-            ]
-        ]
-    },
-    {
-        "id": "5dfac259ecc0927f",
-        "type": "file",
-        "z": "cd185f8f533e0f2d",
-        "name": "logout",
-        "filename": "logFilePath",
-        "filenameType": "msg",
-        "appendNewline": false,
-        "createDir": true,
-        "overwriteFile": "false",
-        "encoding": "none",
-        "x": 410,
-        "y": 40,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "7e0a41b86051ec87",
-        "type": "debug",
-        "z": "cd185f8f533e0f2d",
-        "name": "${logName}",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 430,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "ab279f5f2fd77d53",
-        "type": "http in",
-        "z": "27227cef106a74f0",
-        "name": "endpoint",
-        "url": "${endpoint}",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 100,
-        "y": 60,
-        "wires": [
-            [
-                "87bd2ef55c481975"
-            ]
-        ]
-    },
-    {
-        "id": "87bd2ef55c481975",
-        "type": "change",
-        "z": "27227cef106a74f0",
-        "name": "set parameter",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "req.params.topic",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "callbackhost",
-                "pt": "msg",
-                "to": "req.params.x-callback",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 280,
-        "y": 60,
-        "wires": [
-            [
-                "2be49eb745fa791d"
-            ]
-        ]
-    },
-    {
-        "id": "d4ed8772713b75e0",
-        "type": "template",
-        "z": "27227cef106a74f0",
-        "name": "Response-Page",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "HOSTNAME: {{env.HOSTNAME}}\nNODE_RED_VERSION:{{env.NODE_RED_VERSION}}\njob-session: {{sobsession}}\ntarget: {{target}}\nCALLBACK HOST: {{callbackhost}}",
-        "output": "str",
-        "x": 720,
-        "y": 60,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "b2cb43138961ea29",
-        "type": "http response",
-        "z": "27227cef106a74f0",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 920,
-        "y": 60,
-        "wires": []
-    },
-    {
-        "id": "285f8f2fa8f0b214",
-        "type": "function",
-        "z": "27227cef106a74f0",
-        "name": "assing result",
-        "func": "msg.payload = {\n    \"HOSTNAME\": env.get(\"HOSTNAME\"),\n    \"NODE_RED_VERSION\": env.get(\"NODE_RED_VERSION\"),\n    \"topic\": msg.topic,\n    \"callbackhost\": msg.callbackhost\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 710,
-        "y": 240,
-        "wires": [
-            [
-                "b2cb43138961ea29"
-            ]
-        ]
-    },
-    {
-        "id": "2be49eb745fa791d",
-        "type": "function",
-        "z": "27227cef106a74f0",
-        "name": "JSON.parse",
-        "func": "if (msg.topic) {\n    try {\n        msg.topic = JSON.parse(msg.topic)\n    } catch (error) {\n    }\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 470,
-        "y": 60,
-        "wires": [
-            [
-                "285f8f2fa8f0b214"
-            ]
-        ]
-    },
-    {
-        "id": "fe5cdfa3977befd1",
-        "type": "http in",
-        "z": "45018afdb676ae24",
-        "name": "endpoint",
-        "url": "${endpoint}",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 140,
-        "y": 220,
-        "wires": [
-            [
-                "194d7930b95721c2"
-            ]
-        ]
-    },
-    {
-        "id": "194d7930b95721c2",
-        "type": "change",
-        "z": "45018afdb676ae24",
-        "name": "set parameter",
-        "rules": [
-            {
-                "t": "set",
-                "p": "jobsession",
-                "pt": "msg",
-                "to": "req.params.jobsession",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "target",
-                "pt": "msg",
-                "to": "req.params.target",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "callbackhost",
-                "pt": "msg",
-                "to": "req.params.x-callback",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 360,
-        "y": 220,
-        "wires": [
-            [
-                "28a1734171d6b9cb"
-            ]
-        ]
-    },
-    {
-        "id": "28a1734171d6b9cb",
-        "type": "template",
-        "z": "45018afdb676ae24",
-        "name": "Response-Page",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "HOSTNAME: {{env.HOSTNAME}}\nNODE_RED_VERSION:{{env.NODE_RED_VERSION}}\njob-session: {{sobsession}}\ntarget: {{target}}\nCALLBACK HOST: {{callbackhost}}",
-        "output": "str",
-        "x": 620,
-        "y": 220,
-        "wires": [
-            [
-                "410889c1e32a785c"
-            ]
-        ]
-    },
-    {
-        "id": "410889c1e32a785c",
-        "type": "http response",
-        "z": "45018afdb676ae24",
-        "name": "",
-        "statusCode": "200",
-        "headers": {},
-        "x": 820,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "a9fa9c32d27f7f10",
-        "type": "function",
-        "z": "45018afdb676ae24",
-        "name": "generate_url",
-        "func": "\nconst port = env.get(\"PORT\")\nconst endpointport = env.get(\"endpointport\")\n\nconst service = env.get(\"service_name\")\nconst action = env.get(\"action_type\")\n\nconst jobsession_key = env.get(\"jobsession_key\")\nconst jobsession = msg[jobsession_key]\n\nconst target_key = env.get(\"target_key\")\nconst target = msg[target_key]\n\nmsg.host = env.get(\"SERVICENAME\")\nmsg.service = service\nmsg.joburl = `http://${service}/${action}/${jobsession}/${target}`\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 250,
-        "y": 100,
-        "wires": [
-            [
-                "7479f711071af9bc"
-            ]
-        ]
-    },
-    {
-        "id": "7479f711071af9bc",
-        "type": "http request",
-        "z": "45018afdb676ae24",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "{{{joburl}}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "other",
-                "keyValue": "x-callback",
-                "valueType": "msg",
-                "valueValue": "host"
-            },
-            {
-                "keyType": "other",
-                "keyValue": "x-jobgroup",
-                "valueType": "msg",
-                "valueValue": "service"
-            }
-        ],
-        "x": 430,
-        "y": 100,
-        "wires": [
-            [
-                "457bf364e0336269"
-            ]
-        ]
-    },
-    {
-        "id": "457bf364e0336269",
-        "type": "subflow:cd185f8f533e0f2d",
-        "z": "45018afdb676ae24",
-        "name": "",
-        "x": 650,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "870573ecbe68ee62",
-        "type": "udp in",
-        "z": "0cd70b49340abfe2",
-        "name": "",
-        "iface": "",
-        "port": "${endpoint_port}",
-        "ipv": "udp4",
-        "multicast": "false",
-        "group": "",
-        "datatype": "utf8",
-        "x": 130,
-        "y": 80,
-        "wires": [
-            [
-                "20dcaeb9b3ab0ad1"
-            ]
-        ]
-    },
-    {
-        "id": "20dcaeb9b3ab0ad1",
-        "type": "function",
-        "z": "0cd70b49340abfe2",
-        "name": "payload decode",
-        "func": "msg.payload = JSON.parse(msg.payload)\nif (!msg.payload.CLUSTER_SERVICE_IP) msg.payload.CLUSTER_SERVICE_IP = msg.ip\n\nconst CLUSTER_GROUP = env.get(\"CLUSTER_GROUP\")\n\n//同じグループじゃない場合は処理しない\nif (msg.payload.CLUSTER_GROUP != CLUSTER_GROUP) return null\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 80,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "7d45f678d4340e2f",
-        "type": "udp out",
-        "z": "610d7761aec803a7",
-        "name": "send",
-        "addr": "",
-        "iface": "",
-        "port": "2880",
-        "ipv": "udp4",
-        "outport": "",
-        "base64": false,
-        "multicast": "broad",
-        "x": 970,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "22cfd8a746e0d355",
-        "type": "function",
-        "z": "610d7761aec803a7",
-        "name": "set broadcastAddress",
-        "func": "msg.ip = msg.LocalAddress.broadcastAddress\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 740,
-        "y": 80,
-        "wires": [
-            [
-                "7d45f678d4340e2f"
-            ]
-        ]
-    },
-    {
-        "id": "ce61c2fe2072c316",
-        "type": "function",
-        "z": "610d7761aec803a7",
-        "name": "set ip",
-        "func": "//console.log(msg)\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [
-            {
-                "var": "os",
-                "module": "os"
-            },
-            {
-                "var": "ip",
-                "module": "ip"
-            }
-        ],
-        "x": 690,
-        "y": 120,
-        "wires": [
-            [
-                "7d45f678d4340e2f"
-            ]
-        ]
-    },
-    {
-        "id": "1c270b85f20694db",
-        "type": "function",
-        "z": "610d7761aec803a7",
-        "name": "SEND COMMAND",
-        "func": "const CLUSTER_SERVICE_HTTP_PORT = env.get(\"PORT\") || \"1880\"\nconst CLUSTER_SERVICE_UDP_PORT = env.get(\"UDPPORT\") || \"2880\"\n\nconst CLUSTER_GROUP = env.get(\"CLUSTER_GROUP\")\nconst CLUSTER_ROLE = env.get(\"CLUSTER_ROLE\")\n//const CLUSTER_SERVICE_HOST = env.get(\"KUBERNETES_SERVICE_HOST\")\nconst CLUSTER_SERVICE_IP = msg.LocalAddress.address\nconst CLUSTER_SERVICE_HOST = env.get(\"HOSTNAME\") || CLUSTER_SERVICE_IP\nconst NODE_RED_VERSION = env.get(\"NODE_RED_VERSION\")\nconst COMMAND = env.get(\"COMMAND\")\n\nmsg.payload = JSON.stringify({\n    \"COMMAND\": COMMAND,\n    \"CLUSTER_GROUP\": CLUSTER_GROUP,\n    \"CLUSTER_ROLE\": CLUSTER_ROLE,\n    \"CLUSTER_SERVICE_HOST\": CLUSTER_SERVICE_HOST,\n    \"CLUSTER_SERVICE_IP\": CLUSTER_SERVICE_IP,\n    \"CLUSTER_SERVICE_HTTP_PORT\": CLUSTER_SERVICE_HTTP_PORT,\n    \"CLUSTER_SERVICE_UDP_PORT\": CLUSTER_SERVICE_UDP_PORT,\n    \"NODE_RED_VERSION\": NODE_RED_VERSION,\n    \"PAYLOAD\": msg.payload\n})\nreturn msg",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [
-            {
-                "var": "os",
-                "module": "os"
-            }
-        ],
-        "x": 310,
-        "y": 80,
-        "wires": [
-            [
-                "e304dc51216491e8"
-            ]
-        ]
-    },
-    {
-        "id": "e304dc51216491e8",
-        "type": "switch",
-        "z": "610d7761aec803a7",
-        "name": "isBROADCAST",
-        "property": "BROADCAST",
-        "propertyType": "env",
-        "rules": [
-            {
-                "t": "true"
-            },
-            {
-                "t": "false"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 520,
-        "y": 80,
-        "wires": [
-            [
-                "22cfd8a746e0d355"
-            ],
-            [
-                "ce61c2fe2072c316"
-            ]
-        ]
-    },
-    {
-        "id": "055a6b1f611eebc9",
-        "type": "function",
-        "z": "610d7761aec803a7",
-        "name": "getLocalAddress",
-        "func": "\n\n//ipv4: [ { name: 'eth0', address:\nmsg.LocalAddress = RED.util.getLocalAddress().ipv4[0]\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 190,
-        "y": 40,
-        "wires": [
-            [
-                "1c270b85f20694db"
-            ]
-        ]
-    },
-    {
-        "id": "2ca89985ea3eb86d",
-        "type": "function",
-        "z": "b3da594ab22fa515",
-        "name": "switch role",
-        "func": "const CLUSTER_ROLE = env.get(\"CLUSTER_ROLE\")\n//jobctl\nif (CLUSTER_ROLE === \"jobctl\") {\n    return [msg, null]\n} else {\n//processor\n    return [null, msg]\n}\n",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [
-            {
-                "var": "os",
-                "module": "os"
-            }
-        ],
-        "x": 170,
-        "y": 80,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "a72d2803344a446d",
-        "type": "function",
-        "z": "375ee1d6cf6e3891",
-        "name": "generate_url",
-        "func": "\nconst JOBCTL_HOST = global.get(\"JOBCTL_HOST\")\nconst JOBCTL_SERVICE_IP = JOBCTL_HOST.IP\nconst JOBCTL_SERVICE_HOST_HTTP_PORT = JOBCTL_HOST.HTTP_PORT\nconst actionType = env.get(\"actionType\")\n\nconst topicPath = env.get(\"topicPath\")\nconst topic = encodeURIComponent(JSON.stringify(RED.util.getPropByPath(msg, topicPath)))\n\nmsg.joburl = `http://${JOBCTL_SERVICE_IP}:${JOBCTL_SERVICE_HOST_HTTP_PORT}/${actionType}/${topic}`\nmsg.topic = topic\nreturn msg",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 190,
-        "y": 80,
-        "wires": [
-            [
-                "fc01a190e21bcf85"
-            ]
-        ]
-    },
-    {
-        "id": "fc01a190e21bcf85",
-        "type": "http request",
-        "z": "375ee1d6cf6e3891",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "{{{joburl}}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "other",
-                "keyValue": "x-topic",
-                "valueType": "msg",
-                "valueValue": "topic"
-            }
-        ],
-        "x": 370,
-        "y": 80,
-        "wires": [
-            [
-                "ab5c9b3893934684"
-            ]
-        ]
-    },
-    {
-        "id": "ab5c9b3893934684",
-        "type": "function",
-        "z": "375ee1d6cf6e3891",
-        "name": "JSON.parse",
-        "func": "if (msg.statusCode == \"200\") {\n    if (msg.payload) {\n        try {\n            msg.payload = JSON.parse(msg.payload)\n        } catch (error) {\n        }\n    }\n    return [msg, null]\n}else{\n\n}\n\nreturn [null, msg];",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 570,
-        "y": 80,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "18819cbac00ebaf8",
-        "type": "function",
-        "z": "c826488602403262",
-        "name": "topics_assign",
-        "func": "\nconst topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = RED.util.getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = RED.util.getPropByPath(msg, statusPath) || \"new\"\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Map()\nconst topic_proc = topicStatus.get(nextStatus) || new Map()\n\nconst topicTicket = RED.util.mappop(topic_new)\nif (!topicTicket) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.set(topicTicket.uuid, topicTicket)\n\ntopicStatus.set(selectStatus, topic_new)\ntopicStatus.set(nextStatus, topic_proc)\ntopics.set(selectTopic, topicStatus)\nglobal.set(\"TOPICS\", topics)\nmsg = Object.assign(msg, { payload: { topic: topicTicket.topic, topicTicket: topicTicket } });\n\nreturn [msg, null]",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 200,
-        "y": 80,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "9824a4787a5aa8d6",
-        "type": "function",
-        "z": "b8cfb4b94405d94d",
-        "name": "fillter topic",
-        "func": "\nconst TARGET_TOPICS = (env.get(\"TOPICS\") || \"topic1,topic2\").split(',')\nconst topicPath = env.get(\"topicPath\") //ex. msg.payload.PAYLOAD.topic\nconst topic = RED.util.getPropByPath(msg, topicPath)\n\nmsg.topic = topic\nif (TARGET_TOPICS.indexOf(topic) > -1) return [msg, null]\nreturn [null, msg]",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 200,
-        "y": 80,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
-        "id": "a27285317db43ec7",
-        "type": "function",
-        "z": "d6f01b04a12d7282",
-        "name": "topic_add",
-        "func": "\nconst topicPath = env.get(\"topicPath\") //ex.msg.payload.topic \nconst topicTicket = RED.util.getPropByPath(msg, topicPath)//{topic: \"\",param: { }}\ntopicTicket.uuid = crypto.randomUUID()\n\nif (!topicTicket) return msg\n//{topicname:[{topic:\"\",param: {}}}]}\nconst topicName = topicTicket.topic\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topicStatus = topics.get(topicName) || new Map()\nconst topic = topicStatus.get(\"new\") || new Map()\ntopic.set(topicTicket.uuid,topicTicket)\ntopicStatus.set(\"new\", topic)\ntopics.set(topicName, topicStatus)\nglobal.set(\"TOPICS\", topics)\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [
-            {
-                "var": "crypto",
-                "module": "crypto"
-            }
-        ],
-        "x": 200,
-        "y": 80,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "126cbf276ed23332",
-        "type": "function",
-        "z": "0eb6c089a1f171e9",
-        "name": "topics_list",
-        "func": "//{topicname:[{name:\"\",status: \"new\"}]}\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = RED.util.getPropByPath(msg, statusPath) || \"new\"\n\nconst topics = global.get(\"TOPICS\") || new Map()\nconst topics_list = new Array()\n\nfor (const [topicName, topicStatus] of topics) {\n    const topic_new = topicStatus.get(selectStatus) || new Map()\n    if (topic_new.size > 0) topics_list.push(topicName)\n}\n\nmsg = Object.assign(msg, { payload: { list: topics_list } });\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 200,
-        "y": 80,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "df88c0ce3abe7f11",
-        "type": "function",
-        "z": "f5ba2b0f4e9255e0",
-        "name": "topics_update",
-        "func": "const topicPath = env.get(\"topicPath\") //ex.msg.status\nconst selectTopic = RED.util.getPropByPath(msg, topicPath)\n\nconst statusPath = env.get(\"statusPath\") //ex.msg.status\nconst selectStatus = RED.util.getPropByPath(msg, statusPath) || \"new\"\n\nconst uuidPath = env.get(\"uuidPath\") //ex.msg.status\nconst uuid = RED.util.getPropByPath(msg, uuidPath) || \"uuid\"\n\nconst statusFlow = {\n    \"new\": \"assigned\",\n    \"assigned\": \"in-progress\",\n    \"in-progress\": \"completed\"\n}\nconst nextStatus = statusFlow[selectStatus]\nconst topics = global.get(\"TOPICS\") || new Map()//{topicname:[{name:\"\",status: \"new\"}]}\nconst topicStatus = topics.get(selectTopic) || new Map()\nconst topic_new = topicStatus.get(selectStatus) || new Map()\nconst topic_proc = topicStatus.get(nextStatus) || new Map()\n\nconst topicTicket = topic_new.get(uuid)\nif (!topicTicket) return [null, msg]\nif (!topic_new.delete(uuid)) return [null, msg]\ntopicTicket.status = nextStatus\ntopic_proc.set(topicTicket.uuid, topicTicket)\n\ntopicStatus.set(selectStatus, topic_new) || new Array()\ntopicStatus.set(nextStatus, topic_proc) || new Array()\ntopics.set(selectTopic, topicStatus) || new Map()\nglobal.set(\"TOPICS\", topics) || new Map()\n\nmsg = Object.assign(msg, { payload: { topic: topicTicket.topic, topicTicket: JSON.stringify(topicTicket) } });\n\nreturn [msg, null]",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 200,
-        "y": 80,
-        "wires": [
-            [],
-            []
-        ]
-    },
-    {
         "id": "ca70b65374e24ae8",
-        "type": "subflow:375ee1d6cf6e3891",
+        "type": "rpc-sync",
         "z": "f01882c08732b397",
         "name": "topic取得",
-        "env": [
-            {
-                "name": "actionType",
-                "value": "assign",
-                "type": "str"
-            }
-        ],
         "x": 800,
         "y": 500,
         "wires": [
@@ -1309,7 +35,15 @@
                 "e0410ad4c1884406"
             ],
             []
-        ]
+        ],
+        "actionType": {
+            "type": "str",
+            "value": "assign"
+        },
+        "topicPath": {
+            "type": "str",
+            "value": "topic"
+        }
     },
     {
         "id": "2e548032e1145bc9",
@@ -1352,7 +86,7 @@
     },
     {
         "id": "60ccecf9024cc129",
-        "type": "subflow:b3da594ab22fa515",
+        "type": "switch-role",
         "z": "f01882c08732b397",
         "name": "",
         "x": 430,
@@ -1506,21 +240,9 @@
     },
     {
         "id": "707bc717a0d8c626",
-        "type": "subflow:375ee1d6cf6e3891",
+        "type": "rpc-sync",
         "z": "f01882c08732b397",
         "name": "topic 完了",
-        "env": [
-            {
-                "name": "actionType",
-                "value": "completed",
-                "type": "str"
-            },
-            {
-                "name": "topicPath",
-                "value": "topicTicket",
-                "type": "str"
-            }
-        ],
         "x": 740,
         "y": 700,
         "wires": [
@@ -1530,7 +252,15 @@
             [
                 "dd5d0984cf0af806"
             ]
-        ]
+        ],
+        "actionType": {
+            "type": "str",
+            "value": "completed"
+        },
+        "topicPath": {
+            "type": "str",
+            "value": "topicTicket"
+        }
     },
     {
         "id": "0b5ba824438008c4",
@@ -1553,7 +283,7 @@
     },
     {
         "id": "82c3b0b299dbe8a3",
-        "type": "subflow:b3da594ab22fa515",
+        "type": "switch-role",
         "z": "f01882c08732b397",
         "name": "",
         "x": 350,
@@ -1646,21 +376,9 @@
     },
     {
         "id": "e61870e6384df480",
-        "type": "subflow:375ee1d6cf6e3891",
+        "type": "rpc-sync",
         "z": "f01882c08732b397",
         "name": "",
-        "env": [
-            {
-                "name": "actionType",
-                "value": "addtopic",
-                "type": "str"
-            },
-            {
-                "name": "topicPath",
-                "value": "payload.topic",
-                "type": "str"
-            }
-        ],
         "x": 620,
         "y": 160,
         "wires": [
@@ -1668,7 +386,15 @@
                 "938bc7c1342ffed9"
             ],
             []
-        ]
+        ],
+        "actionType": {
+            "type": "str",
+            "value": "addtopic"
+        },
+        "topicPath": {
+            "type": "str",
+            "value": "payload.topic"
+        }
     },
     {
         "id": "938bc7c1342ffed9",
@@ -1970,7 +696,7 @@
     },
     {
         "id": "5ba8ddc5b2654cdb",
-        "type": "subflow:0cd70b49340abfe2",
+        "type": "cluster-endpoint",
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 140,
@@ -1979,81 +705,79 @@
             [
                 "8436d950506a6455"
             ]
-        ]
+        ],
+        "endpoint_port": {
+            "type": "str",
+            "value": "2880"
+        }
     },
     {
         "id": "fda60e2d1718673e",
-        "type": "subflow:610d7761aec803a7",
+        "type": "cluster-ctl",
         "z": "9e36c572bb2b2e0e",
         "name": "SEND CONNECT",
-        "env": [
-            {
-                "name": "COMMAND",
-                "value": "CONNECT",
-                "type": "str"
-            }
-        ],
         "x": 330,
         "y": 80,
-        "wires": []
+        "wires": [],
+        "COMMAND": {
+            "type": "str",
+            "value": "CONNECT"
+        },
+        "BROADCAST": {
+            "type": "bool",
+            "value": "true"
+        }
     },
     {
         "id": "86db81d4646a1b23",
-        "type": "subflow:610d7761aec803a7",
+        "type": "cluster-ctl",
         "z": "9e36c572bb2b2e0e",
         "name": "SEND PINGREQ",
-        "env": [
-            {
-                "name": "COMMAND",
-                "value": "PINGREQ",
-                "type": "str"
-            }
-        ],
         "x": 330,
         "y": 200,
-        "wires": []
+        "wires": [],
+        "COMMAND": {
+            "type": "str",
+            "value": "PINGREQ"
+        },
+        "BROADCAST": {
+            "type": "bool",
+            "value": "true"
+        }
     },
     {
         "id": "f2e62be0eb17e40b",
-        "type": "subflow:610d7761aec803a7",
+        "type": "cluster-ctl",
         "z": "9e36c572bb2b2e0e",
         "name": "SEND CONNACK",
-        "env": [
-            {
-                "name": "COMMAND",
-                "value": "CONNACK",
-                "type": "str"
-            },
-            {
-                "name": "BROADCAST",
-                "value": "false",
-                "type": "bool"
-            }
-        ],
         "x": 930,
         "y": 280,
-        "wires": []
+        "wires": [],
+        "COMMAND": {
+            "type": "str",
+            "value": "CONNACK"
+        },
+        "BROADCAST": {
+            "type": "bool",
+            "value": "false"
+        }
     },
     {
         "id": "ed74f720bc1d1a06",
-        "type": "subflow:610d7761aec803a7",
+        "type": "cluster-ctl",
         "z": "9e36c572bb2b2e0e",
         "name": "SEND PINGRESP",
-        "env": [
-            {
-                "name": "COMMAND",
-                "value": "PINGRESP",
-                "type": "str"
-            },
-            {
-                "name": "BROADCAST",
-                "value": "false",
-                "type": "bool"
-            }
-        ],
         "x": 710,
         "y": 380,
-        "wires": []
+        "wires": [],
+        "COMMAND": {
+            "type": "str",
+            "value": "PINGRESP"
+        },
+        "BROADCAST": {
+            "type": "bool",
+            "value": "false"
+        }
     },
     {
         "id": "33bb87efab5d968d",
@@ -2111,19 +835,20 @@
     },
     {
         "id": "7b3627b6af144639",
-        "type": "subflow:610d7761aec803a7",
+        "type": "cluster-ctl",
         "z": "9e36c572bb2b2e0e",
         "name": "SEND TOPIC",
-        "env": [
-            {
-                "name": "COMMAND",
-                "value": "TOPIC",
-                "type": "str"
-            }
-        ],
         "x": 1320,
         "y": 780,
-        "wires": []
+        "wires": [],
+        "COMMAND": {
+            "type": "str",
+            "value": "TOPIC"
+        },
+        "BROADCAST": {
+            "type": "bool",
+            "value": "true"
+        }
     },
     {
         "id": "70fa88a3c6d0a19e",
@@ -2146,7 +871,7 @@
     },
     {
         "id": "9ea5aeec71174e3f",
-        "type": "subflow:b3da594ab22fa515",
+        "type": "switch-role",
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 450,
@@ -2160,7 +885,7 @@
     },
     {
         "id": "ee671845d9ea352c",
-        "type": "subflow:b3da594ab22fa515",
+        "type": "switch-role",
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 450,
@@ -2236,7 +961,7 @@
     },
     {
         "id": "879ef2c221179d06",
-        "type": "subflow:c826488602403262",
+        "type": "topics-assign",
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 660,
@@ -2248,7 +973,15 @@
             [
                 "b3b1347496e2aea7"
             ]
-        ]
+        ],
+        "topicPath": {
+            "type": "str",
+            "value": "topic"
+        },
+        "statusPath": {
+            "type": "str",
+            "value": "status"
+        }
     },
     {
         "id": "5f8645481b17a6ba",
@@ -2263,7 +996,7 @@
     },
     {
         "id": "94d6237a4dccb2c1",
-        "type": "subflow:b8cfb4b94405d94d",
+        "type": "fillter-topic",
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 620,
@@ -2273,11 +1006,15 @@
                 "998fa97d665f6910"
             ],
             []
-        ]
+        ],
+        "topicPath": {
+            "type": "str",
+            "value": "payload.PAYLOAD.topic"
+        }
     },
     {
         "id": "6107c34b869084b6",
-        "type": "subflow:d6f01b04a12d7282",
+        "type": "topic-add",
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 620,
@@ -2286,11 +1023,15 @@
             [
                 "33bb87efab5d968d"
             ]
-        ]
+        ],
+        "topicPath": {
+            "type": "str",
+            "value": "payload.topic"
+        }
     },
     {
         "id": "041f26bfc1e571d0",
-        "type": "subflow:0eb6c089a1f171e9",
+        "type": "topics-list",
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 560,
@@ -2299,7 +1040,11 @@
             [
                 "210c38446e598771"
             ]
-        ]
+        ],
+        "statusPath": {
+            "type": "str",
+            "value": "status"
+        }
     },
     {
         "id": "fa378d358dbc8c4f",
@@ -2376,23 +1121,24 @@
     },
     {
         "id": "c806e24325115901",
-        "type": "subflow:27227cef106a74f0",
+        "type": "endpoint",
         "z": "9e36c572bb2b2e0e",
         "name": "Add topic",
-        "env": [
-            {
-                "name": "actionType",
-                "value": "addtopic",
-                "type": "str"
-            }
-        ],
         "x": 120,
         "y": 640,
         "wires": [
             [
                 "42415945f47c060b"
             ]
-        ]
+        ],
+        "actionType": {
+            "type": "str",
+            "value": "addtopic"
+        },
+        "endpoint": {
+            "type": "env",
+            "value": "/${actionType}/:topic"
+        }
     },
     {
         "id": "42415945f47c060b",
@@ -2423,7 +1169,7 @@
     },
     {
         "id": "33ff37445fd71e22",
-        "type": "subflow:b3da594ab22fa515",
+        "type": "switch-role",
         "z": "9e36c572bb2b2e0e",
         "name": "",
         "x": 370,
@@ -2437,16 +1183,9 @@
     },
     {
         "id": "038dbdaf6002571c",
-        "type": "subflow:c826488602403262",
+        "type": "topics-assign",
         "z": "9e36c572bb2b2e0e",
         "name": "",
-        "env": [
-            {
-                "name": "topicPath",
-                "value": "payload.topic",
-                "type": "str"
-            }
-        ],
         "x": 960,
         "y": 780,
         "wires": [
@@ -2454,7 +1193,15 @@
                 "d57fb4f666b653d6"
             ],
             []
-        ]
+        ],
+        "topicPath": {
+            "type": "str",
+            "value": "payload.topic"
+        },
+        "statusPath": {
+            "type": "str",
+            "value": "status"
+        }
     },
     {
         "id": "d57fb4f666b653d6",
@@ -2696,21 +1443,9 @@
     },
     {
         "id": "e8dfbc55efe2889f",
-        "type": "subflow:f5ba2b0f4e9255e0",
+        "type": "topics-update",
         "z": "9e36c572bb2b2e0e",
         "name": "",
-        "env": [
-            {
-                "name": "topicPath",
-                "value": "topic.topic",
-                "type": "str"
-            },
-            {
-                "name": "uuidPath",
-                "value": "topic.uuid",
-                "type": "str"
-            }
-        ],
         "x": 650,
         "y": 1040,
         "wires": [
@@ -2720,7 +1455,19 @@
             [
                 "36e36c6b56939fed"
             ]
-        ]
+        ],
+        "topicPath": {
+            "type": "str",
+            "value": "topic.topic"
+        },
+        "statusPath": {
+            "type": "str",
+            "value": "status"
+        },
+        "uuidPath": {
+            "type": "str",
+            "value": "topic.uuid"
+        }
     },
     {
         "id": "aa4d0d058a0439a4",
@@ -2789,7 +1536,7 @@
     },
     {
         "id": "ab659cb4f6490749",
-        "type": "subflow:c826488602403262",
+        "type": "topics-assign",
         "z": "dbd8abb392121dc1",
         "name": "",
         "x": 600,
@@ -2799,7 +1546,15 @@
                 "5d916e713fcb54d6"
             ],
             []
-        ]
+        ],
+        "topicPath": {
+            "type": "str",
+            "value": "topic"
+        },
+        "statusPath": {
+            "type": "str",
+            "value": "status"
+        }
     },
     {
         "id": "f95507e7d1cc63f1",
@@ -2869,7 +1624,7 @@
     },
     {
         "id": "ef4c138a0cd71fa3",
-        "type": "subflow:d6f01b04a12d7282",
+        "type": "topic-add",
         "z": "dbd8abb392121dc1",
         "name": "",
         "x": 640,
@@ -2878,7 +1633,11 @@
             [
                 "c803403e1bccf5d2"
             ]
-        ]
+        ],
+        "topicPath": {
+            "type": "str",
+            "value": "payload.topic"
+        }
     },
     {
         "id": "b258f9f392268ee6",
