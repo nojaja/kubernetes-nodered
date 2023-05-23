@@ -4,11 +4,12 @@
 ```
 docker build -t sshd:latest .
 ```
-##
+
+## Create pvc
 ```
-kubectl apply -f ./nodered_persistent_volume.yaml
 kubectl apply -f ./nodered_pvc.yaml
 ```
+
 ## 状況取得
 ```
 kubectl get svc,pod,pv,pvc
@@ -20,6 +21,7 @@ kubectl describe pod
 ## 更新
 ```
 kubectl apply -f ./nodered_cluster.yaml
+kubectl apply -f ./nodered_jobctl_cluster.yaml
 kubectl apply -f ./sshd.yaml
 ```
 
@@ -31,6 +33,8 @@ kubectl get Service nodered-service -o yaml
 ## 削除
 ```
 kubectl delete -f ./nodered_cluster.yaml
+kubectl delete -f ./nodered_jobctl_cluster.yaml
+kubectl delete -f ./sshd.yaml
 ```
 
 ```

@@ -32,7 +32,7 @@ spec:
           - name: TZ
             value: "Asia/Tokyo"
           - name: NODE_RED_ENABLE_PROJECTS
-            value: "true"
+            value: "false"
           - name: SERVICENAME
             value: "nodered-service"
           - name: CLUSTER_GROUP
