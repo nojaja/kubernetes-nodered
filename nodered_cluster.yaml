@@ -38,7 +38,7 @@ spec:
           - name: CLUSTER_GROUP
             value: "test"
           - name: CLUSTER_ROLE
-            value: "processor"
+            value: "worker"
           - name: TOPICS
             value: "topic1,topic2,git"
           - name: FLOW_MAX
