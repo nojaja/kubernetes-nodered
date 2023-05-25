@@ -1,13 +1,13 @@
 # kubernetes-nodered
 
-##
+## build sshd
 ```
-docker build -t sshd:latest .
+docker build -t sshd:latest ./containers/sshd/docker
 ```
 
 ## Create pvc
 ```
-kubectl apply -f ./nodered_pvc.yaml
+kubectl apply -k ./clusters/overlays/dev/pvc/
 ```
 
 ## 状況取得
@@ -17,22 +17,19 @@ kubectl logs nodered-deployment-555ddd579f-r4wts
 kubectl get events --sort-by='.metadata.creationTimestamp' -A
 kubectl describe pod
 ```
-## 定義情報確認
-```
-kubectl kustomize ./overlays/dev/jobctl/
-kubectl kustomize ./overlays/dev/worker/
-kubectl kustomize ./overlays/dev/sshd/
-```
+
 ## 更新
 ```
-kubectl apply -k ./overlays/dev/jobctl/
-kubectl apply -k ./overlays/dev/worker/
-kubectl apply -k ./overlays/dev/sshd/
+kubectl apply -k ./clusters/overlays/dev/jobctl/
+kubectl apply -k ./clusters/overlays/dev/worker/
+kubectl apply -k ./clusters/overlays/dev/sshd/
 ```
 
 ## 構成情報取得
 ```
-kubectl get Service nodered-service -o yaml
+kubectl kustomize ./clusters/overlays/dev/jobctl/
+kubectl kustomize ./clusters/overlays/dev/worker/
+kubectl kustomize ./clusters/overlays/dev/sshd/
 ```
 
 ## 削除
