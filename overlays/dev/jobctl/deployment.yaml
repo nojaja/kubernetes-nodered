@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: DEPLOYMENT_NAME_PLACEHOLDER
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodered-jobctl
+  template:
+    metadata:
+      labels:
+        app: nodered-jobctl
+    spec:
+      containers:
+      - env:
+          - name: SERVICENAME
+            value: nodered-service
+          - name: CLUSTER_GROUP
+            value: test
+          - name: CLUSTER_ROLE
+            value: jobctl
+        name: CONTAINER_NAME_PLACEHOLDER
+

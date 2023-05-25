@@ -1,0 +1,26 @@
+#  ./overlays/dev/worker/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+- ../../common/job-cluster
+
+patches:
+- target:
+    kind: Service
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: nodered-worker-service
+- target:
+    kind: Deployment
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: nodered-worker-deployment
+    - op: replace
+      path: /spec/template/spec/containers/0/name
+      value: nodered-worker-server
+
+patchesStrategicMerge:
+- deployment.yaml
+- service.yaml

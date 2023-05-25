@@ -1,0 +1,26 @@
+#  ./overlays/dev/jobctl/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+- ../../common/job-cluster
+
+patches:
+- target:
+    kind: Service
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: nodered-jobctl-service
+- target:
+    kind: Deployment
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: nodered-jobctl-deployment
+    - op: replace
+      path: /spec/template/spec/containers/0/name
+      value: nodered-jobctl-server
+
+patchesStrategicMerge:
+- deployment.yaml
+- service.yaml

@@ -129,3 +129,4 @@ dist
 .pnp.*
 /minitool/output
 /minitool/node_modules
+/node_modules

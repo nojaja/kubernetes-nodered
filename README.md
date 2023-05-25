@@ -17,12 +17,17 @@ kubectl logs nodered-deployment-555ddd579f-r4wts
 kubectl get events --sort-by='.metadata.creationTimestamp' -A
 kubectl describe pod
 ```
-
+## 定義情報確認
+```
+kubectl kustomize ./overlays/dev/jobctl/
+kubectl kustomize ./overlays/dev/worker/
+kubectl kustomize ./overlays/dev/sshd/
+```
 ## 更新
 ```
-kubectl apply -f ./nodered_cluster.yaml
-kubectl apply -f ./nodered_jobctl_cluster.yaml
-kubectl apply -f ./sshd.yaml
+kubectl apply -k ./overlays/dev/jobctl/
+kubectl apply -k ./overlays/dev/worker/
+kubectl apply -k ./overlays/dev/sshd/
 ```
 
 ## 構成情報取得
@@ -32,9 +37,10 @@ kubectl get Service nodered-service -o yaml
 
 ## 削除
 ```
-kubectl delete -f ./nodered_cluster.yaml
-kubectl delete -f ./nodered_jobctl_cluster.yaml
-kubectl delete -f ./sshd.yaml
+kubectl delete -k ./overlays/dev/jobctl/
+kubectl delete -k ./overlays/dev/worker/
+kubectl delete -k ./overlays/dev/sshd/
+
 ```
 
 ```

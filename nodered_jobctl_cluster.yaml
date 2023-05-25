@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodered-jobctl-service
+spec:
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: 1880
+  selector:
+    app: nodered
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodered-jobctl-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodered-jobctl
+  template:
+    metadata:
+      labels:
+        app: nodered-jobctl
+    spec:
+      containers:
+      - env:
+          - name: SERVICENAME
+            value: nodered-service
+          - name: CLUSTER_GROUP
+            value: test
+          - name: CLUSTER_ROLE
+            value: jobctl
+          - name: TZ
+            value: Asia/Tokyo
+          - name: NODE_RED_ENABLE_PROJECTS
+            value: "false"
+        image: nodered/node-red:latest
+        name: nodered-jobctl-server
+        ports:
+        - containerPort: 1880
+        resources:
+          limits:
+            cpu: 500m
+            memory: 8Gi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+        volumeMounts:
+          - mountPath: /workspace
+            name: nodered-workspace-volume
+          - mountPath: /output
+            name: nodered-output-volume
+          - mountPath: /data
+            name: nodered-data-store-volume
+      volumes:
+        - name: nodered-workspace-volume
+          persistentVolumeClaim:
+            claimName: nodered-workspace-pvc
+        - name: nodered-output-volume
+          persistentVolumeClaim:
+            claimName: nodered-output-pvc
+        - name: nodered-data-store-volume
+          persistentVolumeClaim:
+            claimName: nodered-data-pvc
