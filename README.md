@@ -34,9 +34,9 @@ kubectl kustomize ./clusters/overlays/dev/sshd/
 
 ## 削除
 ```
-kubectl delete -k ./overlays/dev/jobctl/
-kubectl delete -k ./overlays/dev/worker/
-kubectl delete -k ./overlays/dev/sshd/
+kubectl delete -k ./clusters/overlays/dev/jobctl/
+kubectl delete -k ./clusters/overlays/dev/worker/
+kubectl delete -k ./clusters/overlays/dev/sshd/
 
 ```
 

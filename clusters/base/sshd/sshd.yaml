@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: ssh-passwd
-        image: sshd:latest
+        image: nojaja/ez_sshd:latest
         imagePullPolicy: Never
         volumeMounts:
           - name: nodered-data-store-volume
