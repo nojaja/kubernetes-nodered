@@ -1,8 +1,12 @@
-#  ./overlays/dev/jobctl/kustomization.yaml
+#  ./overlays/dev/worker/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 bases:
-- ../../common/job-cluster
+- ../base
+
+resources:
+- service.yaml
 
 patches:
 - target:
@@ -10,17 +14,20 @@ patches:
   patch: |-
     - op: replace
       path: /metadata/name
-      value: nodered-jobctl-service
+      value: nodered-worker-service
 - target:
     kind: Deployment
   patch: |-
     - op: replace
       path: /metadata/name
-      value: nodered-jobctl-deployment
+      value: nodered-worker-deployment
     - op: replace
       path: /spec/template/spec/containers/0/name
-      value: nodered-jobctl-server
+      value: nodered-worker-server
 
+images:
+  - name: nodered
+    newName: nodered/node-red:latest-minimal
+        
 patchesStrategicMerge:
 - deployment.yaml
-- service.yaml

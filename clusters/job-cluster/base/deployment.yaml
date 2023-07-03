@@ -6,14 +6,14 @@ spec:
   template:
     spec:
       containers:
-      - env:
+      - name: CONTAINER_NAME_PLACEHOLDER
+        env:
           - name: SERVICENAME
             value: nodered-service
           - name: CLUSTER_GROUP
             value: test
           - name: CLUSTER_ROLE
             value: worker
-        name: CONTAINER_NAME_PLACEHOLDER
         volumeMounts:
           - mountPath: /workspace
             name: nodered-workspace-volume

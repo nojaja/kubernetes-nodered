@@ -27,7 +27,10 @@ spec:
     spec:
       containers:
       - name: ssh-passwd
-        image: nojaja/ez_sshd:latest
+        # securityContext:
+        #   privileged: false
+        #   runAsUser: 1000
+        image: nojaja/eg_sshd:latest
         imagePullPolicy: Never
         volumeMounts:
           - name: nodered-data-store-volume

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: DEPLOYMENT_NAME_PLACEHOLDER
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodered-worker
+  template:
+    metadata:
+      labels:
+        app: nodered-worker
+    spec:
+      containers:
+      - env:
+        - name: TZ
+          value: Asia/Tokyo
+        - name: NODE_RED_ENABLE_PROJECTS
+          value: "false"
+        - name: PORT
+          value: "1888"
+        - name: FLOWS
+          value: flows.json
+        image: nodered/node-red:latest-minimal
+        name: nodered-worker-server2
+        ports:
+        - containerPort: 1888
+        resources:
+          limits:
+            cpu: 500m
+            memory: 8Gi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+        volumeMounts:
+        - mountPath: /workspace
+          name: nodered-workspace-volume
+        - mountPath: /output
+          name: nodered-output-volume
+        - mountPath: /data
+          name: nodered-data-store-volume

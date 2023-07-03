@@ -13,13 +13,15 @@ spec:
         app: nodered
     spec:
       containers:
-      - env:
+      - name: CONTAINER_NAME_PLACEHOLDER
+        env:
           - name: TZ
             value: Asia/Tokyo
           - name: NODE_RED_ENABLE_PROJECTS
             value: "false"
-        image: nodered/node-red:latest
-        name: CONTAINER_NAME_PLACEHOLDER
+          - name: FLOWS
+            value: /data/job-cluster/flows.json
+        image: nodered
         ports:
         - containerPort: 1880
         resources:
