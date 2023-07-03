@@ -4,4 +4,8 @@ kind: Kustomization
 
 resources:
 - deployment.yaml
+- service.yaml
 
+images:
+  - name: jobctl
+    newName: nojaja/jobctl:latest

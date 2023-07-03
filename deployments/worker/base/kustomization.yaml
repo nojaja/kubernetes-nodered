@@ -1,0 +1,14 @@
+# ./base/node-red/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- deployment.yaml
+- service.yaml
+
+images:
+  - name: worker
+    newName: nojaja/worker:latest
+  - name: taskmng
+    newName: nojaja/taskmng:latest     
+    

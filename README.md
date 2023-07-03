@@ -12,7 +12,7 @@ kubectl create namespace sample
 
 ## Create pvc
 ```
-kubectl -n sample apply -k ./clusters/overlays/dev/pvc/
+kubectl -n sample apply -k deployments/pvc/base
 ```
 
 ## 状況取得
@@ -25,24 +25,23 @@ kubectl -n sample describe pod
 
 ## 更新
 ```
-kubectl -n sample apply -k ./clusters/job-cluster/jobctl/
-kubectl -n sample apply -k ./clusters/job-cluster/worker/
-kubectl -n sample apply -k ./clusters/job-cluster/sshd/
+kubectl -n sample apply -k deployments/jobctl/base
+kubectl -n sample apply -k deployments/worker/base
+kubectl -n sample apply -k deployments/sshd/base
 ```
 
 ## 構成情報取得
 ```
-kubectl kustomize ./clusters/job-cluster/jobctl/
-kubectl kustomize ./clusters/job-cluster/taskmng/
-kubectl kustomize ./clusters/job-cluster/worker/
-kubectl kustomize ./clusters/job-cluster/sshd/
+kubectl kustomize deployments/jobctl/base
+kubectl kustomize deployments/worker/base
+kubectl kustomize deployments/sshd/base
 ```
 
 ## 削除
 ```
-kubectl -n sample delete -k ./clusters/job-cluster/jobctl/
-kubectl -n sample delete -k ./clusters/job-cluster/worker/
-kubectl -n sample delete -k ./clusters/job-cluster/sshd/
+kubectl -n sample delete -k deployments/jobctl/base
+kubectl -n sample delete -k deployments/worker/base
+kubectl -n sample delete -k deployments/sshd/base
 
 ```
 
@@ -63,8 +62,8 @@ tar xvfz /workspace/node_modules.tgz
 ```
 
 ```
-kubectl -n sample port-forward nodered-deployment-679b5cf798-g85lw 1880:1880
-kubectl -n sample port-forward nodered-deployment-679b5cf798-j9f8d 1881:1880
+kubectl -n sample port-forward nodered-deployment-679b5cf798-g85lw 1880:1888
+kubectl -n sample port-forward nodered-deployment-679b5cf798-j9f8d 1881:1888
 kubectl -n sample port-forward nodered-deployment-679b5cf798-vr5fh 1882:1880
 
 ```

@@ -1,29 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: DEPLOYMENT_NAME_PLACEHOLDER
+  name: nodered-jobctl-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nodered
+      app: nodered-jobctl
   template:
     metadata:
       labels:
-        app: nodered
+        app: nodered-jobctl
     spec:
       containers:
-      - name: CONTAINER_NAME_PLACEHOLDER
+      - name: nodered-jobctl-server
         env:
-          - name: TZ
-            value: Asia/Tokyo
-          - name: NODE_RED_ENABLE_PROJECTS
-            value: "false"
-          - name: FLOWS
-            value: /data/job-cluster/flows.json
-        image: nodered
+          - name: SERVICENAME
+            value: nodered-service
+          - name: CLUSTER_GROUP
+            value: test
+        image: jobctl
+        imagePullPolicy: Never # ローカルにあるイメージを使う
         ports:
-        - containerPort: 1880
+        - containerPort: 1888
         resources:
           limits:
             cpu: 500m
