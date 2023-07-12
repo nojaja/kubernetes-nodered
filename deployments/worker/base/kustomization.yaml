@@ -6,6 +6,9 @@ resources:
 - deployment.yaml
 - service.yaml
 
+patchesStrategicMerge:
+- side-deployment.yaml
+
 images:
   - name: worker
     newName: nojaja/worker:latest

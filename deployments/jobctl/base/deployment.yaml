@@ -18,7 +18,7 @@ spec:
           - name: SERVICENAME
             value: nodered-service
           - name: CLUSTER_GROUP
-            value: test
+            value: default
         image: jobctl
         imagePullPolicy: Never # ローカルにあるイメージを使う
         ports:

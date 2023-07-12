@@ -13,11 +13,20 @@ spec:
         app: nodered-worker
     spec:
       containers:
-      - name: nodered-taskmng-server
-        image: taskmng
+      - name: nodered-worker-server
+        env:
+          - name: SERVICENAME
+            value: nodered-service
+          - name: CLUSTER_GROUP
+            value: default
+          - name: TOPICS
+            value: topic1,topic2,git
+          - name: FLOW_MAX
+            value: "1"
+        image: worker
         imagePullPolicy: Never # ローカルにあるイメージを使う
         ports:
-        - containerPort: 1880
+        - containerPort: 1888
         resources:
           limits:
             cpu: 500m
@@ -26,19 +35,9 @@ spec:
             cpu: 250m
             memory: 64Mi
         volumeMounts:
-          - mountPath: /workspace
-            name: nodered-workspace-volume
-          - mountPath: /output
-            name: nodered-output-volume
           - mountPath: /data
             name: nodered-data-store-volume
       volumes:
-        - name: nodered-workspace-volume
-          persistentVolumeClaim:
-            claimName: nodered-workspace-pvc
-        - name: nodered-output-volume
-          persistentVolumeClaim:
-            claimName: nodered-output-pvc
         - name: nodered-data-store-volume
           persistentVolumeClaim:
             claimName: nodered-data-pvc
