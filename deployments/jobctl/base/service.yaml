@@ -4,7 +4,7 @@ metadata:
   name: nodered-jobctl-service
 spec:
   ports:
-  - port: 8081
+  - port: 18081
     protocol: TCP
     targetPort: 1888
   selector:

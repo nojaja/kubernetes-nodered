@@ -10,7 +10,7 @@ SSHd サービスがセットアップされたコンテナイメージ。
 ## develop
 ```
 cd .
-docker build -t nojaja/eg_sshd:latest .
+docker build -t nojaja/eg_sshd:latest containers\sshd\docker
 docker image ls
 
 ```

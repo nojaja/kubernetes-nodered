@@ -8,7 +8,7 @@ spec:
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 2223
+    port: 12223
     targetPort: 22
 ---
 apiVersion: apps/v1
@@ -35,10 +35,14 @@ spec:
         volumeMounts:
           - name: nodered-data-store-volume
             mountPath: /data
+          - name: nodered-data2-store-volume
+            mountPath: /data2
           - name: nodered-workspace-volume
             mountPath: /workspace
           - name: nodered-output-volume
             mountPath: /output
+          - name: app
+            mountPath: /hoge
         ports:
         - containerPort: 22
         resources:
@@ -52,11 +56,17 @@ spec:
         - name: nodered-data-store-volume
           persistentVolumeClaim:
             claimName: nodered-data-pvc
+        - name: nodered-data2-store-volume
+          persistentVolumeClaim:
+            claimName: nodered-data2-pvc
         - name: nodered-workspace-volume
           persistentVolumeClaim:
             claimName: nodered-workspace-pvc
         - name: nodered-output-volume
           persistentVolumeClaim:
             claimName: nodered-output-pvc
-
+        - name: app
+          hostPath:
+            path: /run/desktop/mnt/host/c/devs/pv/
+            type: Directory
 

@@ -31,8 +31,11 @@ spec:
           - mountPath: /output
             name: nodered-output-volume
           - mountPath: /data
-            name: nodered-data-store-volume
+            name: nodered-data2-store-volume
       volumes:
+        - name: nodered-data2-store-volume
+          persistentVolumeClaim:
+            claimName: nodered-data2-pvc
         - name: nodered-workspace-volume
           persistentVolumeClaim:
             claimName: nodered-workspace-pvc

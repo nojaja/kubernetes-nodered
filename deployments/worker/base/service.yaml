@@ -4,9 +4,14 @@ metadata:
   name: nodered-worker-service
 spec:
   ports:
-  - port: 8080
+  - port: 18080
+    name: jobctl
     protocol: TCP
     targetPort: 1888
+  - port: 18082
+    name: task
+    protocol: TCP
+    targetPort: 1880
   selector:
     app: nodered-worker
   type: LoadBalancer

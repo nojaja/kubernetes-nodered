@@ -15,8 +15,10 @@ spec:
       containers:
       - name: nodered-jobctl-server
         env:
-          - name: SERVICENAME
-            value: nodered-service
+          - name: JOBCTL_SERVICE_NAME
+            value: nodered-jobctl-service
+          - name: JOBCTL_SERVICE_PORT
+            value: "18081"
           - name: CLUSTER_GROUP
             value: default
         image: jobctl
