@@ -130,3 +130,4 @@ dist
 /minitool/output
 /minitool/node_modules
 /node_modules
+/modules/sample/node_modules
